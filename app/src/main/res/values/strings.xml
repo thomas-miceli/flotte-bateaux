@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Flotte</string>
+    <string name="title_activity_boats_map">Positions Bateaux</string>
 </resources>
