@@ -35,6 +35,7 @@ class LogInActivity : AppCompatActivity()  {
             if(task.isSuccessful){
                 Toast.makeText(applicationContext,"Connexion réussie", Toast.LENGTH_LONG).show()
                 val page = Intent(this, FirstActivity::class.java)
+                page.putExtra("USER_ID",firebaseAuth.getCurrentUser()?.uid)
                 startActivity(page)
             }
             else {
