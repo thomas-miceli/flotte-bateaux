@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import kotlinx.android.synthetic.main.activity_first.*
 import ovh.tomus.iut.flotte.R
 
 class FirstActivity : AppCompatActivity() {
@@ -15,6 +16,10 @@ class FirstActivity : AppCompatActivity() {
 
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+
+        val sessionId = intent.getStringExtra("USER_ID")
+
+        textView.setText(sessionId)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
