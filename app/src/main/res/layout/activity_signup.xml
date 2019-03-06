@@ -8,29 +8,31 @@
         tools:context=".Activities.SignUpActivity">
 
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/inputMail"
-            android:hint="Mail" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="47dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="84dp"/>
+            android:hint="Email" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="90dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"/>
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/inputMdp"
-            android:hint="Mot de passe" android:layout_marginTop="16dp"
+            android:hint="Mot de passe" android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/inputMail" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="84dp"/>
+            android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <Button
             android:text="Inscription"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/submit" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="137dp"
-            android:layout_marginTop="13dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
-            android:onClick="submit"/>
+            android:id="@+id/submit" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
+            android:onClick="submit" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
