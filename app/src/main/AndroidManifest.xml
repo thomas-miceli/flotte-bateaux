@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".Activities.SecondActivity" android:label="Act 2">
         </activity>
-
+        <activity android:name=".Activities.LoginActivity" android:label="Login">
+        </activity>
     </application>
 
 </manifest>
