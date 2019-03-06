@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         val game : Intent
         when (view.getId()) {
             R.id.btnOne -> {
-                game = Intent(this, FirstActivity::class.java)
+                game = Intent(this, LoginActivity::class.java)
                 startActivity(game)
             }
             R.id.btnTwo -> {
