@@ -23,6 +23,7 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth.createUserWithEmailAndPassword(email,mdp).addOnCompleteListener{task ->
             if(task.isSuccessful){
                 Toast.makeText(applicationContext,"Utilisateur créé avec succès",Toast.LENGTH_LONG).show()
+                finish()
             }
             else {
                 Toast.makeText(applicationContext,"Erreur de création de l'utilisateur",Toast.LENGTH_LONG).show()

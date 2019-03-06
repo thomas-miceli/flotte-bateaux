@@ -38,13 +38,13 @@ class Boats_map : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        for(a in /* TODO: AJOUTER LISTE DES BATEAUX*/) {
-            val bateau = LatLng(a.getlatitude,a.getlongitude)
-            mMap.addMarker(MarkerOptions().position(bateau)).title(a.getname)
-        }
-        //val sydney = LatLng(-34.0, 151.0)
+        //for(a in ) {
+        //    val bateau = LatLng(a.getlatitude,a.getlongitude)
+        //    mMap.addMarker(MarkerOptions().position(bateau)).title(a.getname)
+        //}
+        val sydney = LatLng(-34.0, 151.0)
 
-        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

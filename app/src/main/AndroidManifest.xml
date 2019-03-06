@@ -27,10 +27,6 @@
         </activity>
         <activity android:name=".Activities.SecondActivity" android:label="Act 2">
         </activity>
-        <activity
-                android:name=".Activities.LoginActivity"
-                android:label="Inscription">
-        </activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -46,11 +42,13 @@
 
         <activity
                 android:name=".Activities.Boats_map"
-                android:label="@string/title_activity_boats_map">
+                android:label="Bateaux">
+        </activity>
         <activity android:name=".Activities.SignUpActivity" android:label="Inscription">
         </activity>
         <activity android:name=".Activities.LogInActivity" android:label="Connexion">
         </activity>
+
 
     </application>
 
