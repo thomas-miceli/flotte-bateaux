@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "510201343666",
+    "firebase_url": "https://flotte-bateaux.firebaseio.com",
+    "project_id": "flotte-bateaux",
+    "storage_bucket": "flotte-bateaux.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510201343666:android:5a0e0b78a9f88fdb",
+        "android_client_info": {
+          "package_name": "ovh.tomus.iut.flotte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510201343666-2r3khqpi6t3ad7r71k8njienpdpuj7ap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ovh.tomus.iut.flotte",
+            "certificate_hash": "1d7598c81354dd2f52723e61edef1c6354ffeb06"
+          }
+        },
+        {
+          "client_id": "510201343666-r8ml27a28nsrenpqu48njs5kfc3qsbe9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6_-IKhfQ2JwYVSdmQgg1_rCMNGxmmY5g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510201343666-r8ml27a28nsrenpqu48njs5kfc3qsbe9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
