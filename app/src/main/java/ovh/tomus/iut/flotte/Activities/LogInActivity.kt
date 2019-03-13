@@ -6,25 +6,36 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.google.firebase.FirebaseApp
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.core.FirestoreClient
-import kotlinx.android.synthetic.main.activity_signup.*
 import ovh.tomus.iut.flotte.Models.User
 import ovh.tomus.iut.flotte.R
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_login.*
+
 
 class LogInActivity : AppCompatActivity()  {
+
+    val RC_SIGN_IN = 101
 
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     val db = FirebaseFirestore.getInstance()
 
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken("510201343666-r8ml27a28nsrenpqu48njs5kfc3qsbe9.apps.googleusercontent.com")
+        .requestEmail()
+        .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        //googleButton.setOnClickListener {}
     }
 
     fun signup(view: View) {
@@ -46,26 +57,19 @@ class LogInActivity : AppCompatActivity()  {
                 val page = Intent(this, FirstActivity::class.java)
 
                 val uid = firebaseAuth.currentUser!!.uid
-                var pseudo = ""
 
                 val users = db.collection("users")
+
 
                 users.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (document in task.result!!) {
                             if (uid == document.data["id"].toString()) {
-                                pseudo = document.data["pseudo"].toString()
+                                val pseudo = document.data["pseudo"].toString()
+                                whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo)
                             }
                         }
                     }
-                    val user = User(uid, pseudo, "Aoker", "Ahokaient", "Ahrr")
-
-                    page.putExtra("USER", user)
-
-                    Toast.makeText(applicationContext, pseudo, Toast.LENGTH_LONG).show()
-
-                    startActivity(page)
-                    finish()
 
                 }
 
@@ -76,4 +80,67 @@ class LogInActivity : AppCompatActivity()  {
             }
         }
     }
+
+    fun signWithGoogle(view: View) {
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                Log.d("TAG", account.toString())
+
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("TAG", "Google sign in failed", e)
+                // ...
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val users = db.collection("users")
+
+                    users.whereEqualTo("id", firebaseAuth.currentUser!!.uid).get().addOnSuccessListener { task ->
+                        if (!task.isEmpty) {
+                            // Si l'id est renseignée dans la BD
+                            val pseudo = task.documents.get(0).data!!["pseudo"].toString()
+                            whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo)
+                        } else {
+                            Toast.makeText(applicationContext, "EXISTE PAS", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Authentication Failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun whenLoggedIn(uid: String, pseudo: String) {
+        val page = Intent(this, FirstActivity::class.java)
+        val user = User(uid, pseudo, "Aoker", "Ahokaient", "Ahrr")
+
+        page.putExtra("USER", user)
+        Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_LONG).show()
+
+        startActivity(page)
+        finish()
+    }
+
+
 }
