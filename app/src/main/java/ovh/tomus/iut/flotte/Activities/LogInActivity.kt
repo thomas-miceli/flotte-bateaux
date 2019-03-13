@@ -66,7 +66,7 @@ class LogInActivity : AppCompatActivity()  {
                         for (document in task.result!!) {
                             if (uid == document.data["id"].toString()) {
                                 val pseudo = document.data["pseudo"].toString()
-                                whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo)
+                                whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo, firebaseAuth.currentUser!!.email!!)
                             }
                         }
                     }
@@ -120,9 +120,9 @@ class LogInActivity : AppCompatActivity()  {
                         if (!task.isEmpty) {
                             // Si l'id est renseignée dans la BD
                             val pseudo = task.documents.get(0).data!!["pseudo"].toString()
-                            whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo)
+                            whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo, firebaseAuth.currentUser!!.email!!)
                         } else {
-                            Toast.makeText(applicationContext, "EXISTE PAS", Toast.LENGTH_SHORT).show()
+                            finalizeGoogle(firebaseAuth.currentUser!!.uid, firebaseAuth.currentUser!!.email!!)
                         }
                     }
                 } else {
@@ -131,12 +131,21 @@ class LogInActivity : AppCompatActivity()  {
             }
     }
 
-    private fun whenLoggedIn(uid: String, pseudo: String) {
+    private fun whenLoggedIn(uid: String, pseudo: String, mail: String) {
         val page = Intent(this, FirstActivity::class.java)
-        val user = User(uid, pseudo, "Aoker", "Ahokaient", "Ahrr")
+        val user = User(uid, pseudo, "Aoker", "Ahokaient", mail)
 
         page.putExtra("USER", user)
         Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_LONG).show()
+
+        startActivity(page)
+        finish()
+    }
+
+    private fun finalizeGoogle(uid: String, mail: String) {
+        val page = Intent(this, SignUpGoogleActivity::class.java)
+        page.putExtra("uid", uid)
+        page.putExtra("mail", mail)
 
         startActivity(page)
         finish()
