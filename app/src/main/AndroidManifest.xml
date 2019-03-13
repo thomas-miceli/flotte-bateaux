@@ -23,9 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.FirstActivity" android:label="Act 1">
+        <activity
+                android:name=".Activities.FirstActivity"
+                android:label="Act 1">
         </activity>
-        <activity android:name=".Activities.SecondActivity" android:label="Act 2">
+        <activity
+                android:name=".Activities.SecondActivity"
+                android:label="Act 2">
         </activity>
 
         <!--
@@ -44,11 +48,20 @@
                 android:name=".Activities.Boats_map"
                 android:label="Bateaux">
         </activity>
-        <activity android:name=".Activities.SignUpActivity" android:label="Inscription">
+        <activity
+                android:name=".Activities.SignUpActivity"
+                android:label="Inscription">
+        </activity>
+        <activity
+                android:name=".Activities.LogInActivity"
+                android:label="Connexion">
         </activity>
         <activity android:name=".Activities.SignUpGoogleActivity" android:label="Inscription avec Google">
         </activity>
-        <activity android:name=".Activities.LogInActivity" android:label="Connexion">
+        <activity
+                android:name=".Activities.BoateditorActivity"
+                android:label="@string/title_activity_boateditor"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
 
