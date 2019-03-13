@@ -54,19 +54,16 @@ class LogInActivity : AppCompatActivity()  {
         firebaseAuth.signInWithEmailAndPassword(email,mdp).addOnCompleteListener{task ->
             if(task.isSuccessful){
                 Toast.makeText(applicationContext,"Connexion réussie", Toast.LENGTH_LONG).show()
-                val page = Intent(this, FirstActivity::class.java)
 
                 val uid = firebaseAuth.currentUser!!.uid
-
                 val users = db.collection("users")
-
 
                 users.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (document in task.result!!) {
                             if (uid == document.data["id"].toString()) {
                                 val pseudo = document.data["pseudo"].toString()
-                                whenLoggedIn(firebaseAuth.currentUser!!.uid, pseudo, firebaseAuth.currentUser!!.email!!)
+                                whenLoggedIn(uid, pseudo, firebaseAuth.currentUser!!.email!!)
                             }
                         }
                     }
