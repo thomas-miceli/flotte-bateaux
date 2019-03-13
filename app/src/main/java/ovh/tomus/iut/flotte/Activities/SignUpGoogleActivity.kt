@@ -8,7 +8,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.activity_signupgoogle.*
 import ovh.tomus.iut.flotte.Models.User
 import ovh.tomus.iut.flotte.R
