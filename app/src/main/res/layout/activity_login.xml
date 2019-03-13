@@ -11,7 +11,7 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/inputMail"
-            android:hint="Email" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="90dp"
+            android:hint="@string/email" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="90dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp" android:layout_width="0dp"
             android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0" android:layout_height="wrap_content" android:autofillHints=""/>
@@ -21,12 +21,12 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/inputMdp"
-            android:hint="Mot de passe" android:layout_marginTop="10dp"
+            android:hint="@string/mot_de_passe" android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/inputMail" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="50dp" app:layout_constraintHorizontal_bias="0.0"/>
+            android:layout_marginEnd="50dp" app:layout_constraintHorizontal_bias="0.0" android:autofillHints=""/>
     <Button
-            android:text="Connexion"
+            android:text="@string/connexion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/loginButton" app:layout_constraintStart_toStartOf="parent"
@@ -35,16 +35,26 @@
             android:onClick="connect" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"/>
     <Button
-            android:text="Inscription"
+            android:text="@string/inscription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/signupButton"
             android:onClick="signup" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
-            android:layout_marginBottom="220dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/loginButton" app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0"/>
+    />
+    <Button
+            android:text="@string/google"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/googleButton"
+            android:onClick="signWithGoogle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="148dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="148dp" android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/signupButton" android:layout_marginBottom="131dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
