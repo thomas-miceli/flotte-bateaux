@@ -22,7 +22,7 @@ class FirstActivity : AppCompatActivity() {
         val user = intent.getSerializableExtra("USER") as User
 
 
-        textView.setText(user.pseudo)
+        textView.text = user.pseudo
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
