@@ -46,6 +46,8 @@
         </activity>
         <activity android:name=".Activities.SignUpActivity" android:label="Inscription">
         </activity>
+        <activity android:name=".Activities.SignUpGoogleActivity" android:label="Inscription avec Google">
+        </activity>
         <activity android:name=".Activities.LogInActivity" android:label="Connexion">
         </activity>
 
