@@ -4,9 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
-import kotlinx.android.synthetic.main.Add_Boat.*
-import ovh.tomus.iut.flotte.Models.Port
+import kotlinx.android.synthetic.main.add_boat.*
 import ovh.tomus.iut.flotte.R
 
 class AddBoat : AppCompatActivity() {
@@ -15,7 +13,7 @@ class AddBoat : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.Add_Boat)
+        setContentView(R.layout.add_boat)
     }
 
     fun addBoat(view: View) {

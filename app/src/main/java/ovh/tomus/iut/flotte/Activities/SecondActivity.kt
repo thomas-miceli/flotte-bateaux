@@ -18,13 +18,10 @@ import ovh.tomus.iut.flotte.Models.ContainershipType
 import ovh.tomus.iut.flotte.Models.Port
 import ovh.tomus.iut.flotte.Models.User
 import ovh.tomus.iut.flotte.R
-//import android.support.test.orchestrator.junit.BundleJUnitUtils.getResult
 
 class SecondActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
-
-    val boats: CollectionReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
