@@ -29,7 +29,7 @@ class SecondActivity : AppCompatActivity() {
         boats.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (boat in task.result!!) {
-                    db.document((boat.data["port"] as DocumentReference).path).get().addOnSuccessListener {e->
+                    db.document((boat.data["harbor"] as DocumentReference).path).get().addOnSuccessListener {e->
                         showBoat(boat.id,boat.data["boatName"].toString(), boat.data["captainName"].toString(), boat.data["localization"].toString(), e.data!!["name"].toString())
                     }
                 }
@@ -39,7 +39,7 @@ class SecondActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun showBoat(id: String, name: String, captain: String, localization: String, port: String){
-        textView.text = "${textView.text} \n--------------------\nID: $id\nNom: $name\nCapitaine: $captain\nGeo: $localization\nPort: $port"
+        textView.text = "${textView.text} \n--------------------\nID: $id\nNom: $name\nCapitaine: $captain\nGeo: $localization\nHarbor: $port"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

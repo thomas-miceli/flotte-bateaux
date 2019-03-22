@@ -21,13 +21,13 @@ class AddBoat : AppCompatActivity() {
         val boatName : String = boatname.text.toString()
         val captainName : String = captainname.text.toString()
         //val localization : GeoPoint =
-        //val harbour : Port =
+        //val harbour : Harbor =
 
         val data = HashMap<String, Any>()
         data["boatName"] = boatName
         data["captainName"] = captainName
         //data["localization"] = localization
-        //data["port"] = harbour
+        //data["harbor"] = harbour
         boats.add(data)
     }
 
