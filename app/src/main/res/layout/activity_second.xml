@@ -8,9 +8,9 @@
         tools:context=".Activities.MainActivity">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:text="Activité 2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Description des bateaux:"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

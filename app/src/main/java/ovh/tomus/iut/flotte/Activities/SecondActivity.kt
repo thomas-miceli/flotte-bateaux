@@ -1,22 +1,11 @@
 package ovh.tomus.iut.flotte.Activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.model.value.IntegerValue
-import com.google.firebase.firestore.model.value.ObjectValue
 import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.android.synthetic.main.activity_signup.*
-import ovh.tomus.iut.flotte.Models.Containership
-import ovh.tomus.iut.flotte.Models.ContainershipType
-import ovh.tomus.iut.flotte.Models.Port
-import ovh.tomus.iut.flotte.Models.User
 import ovh.tomus.iut.flotte.R
 
 class SecondActivity : AppCompatActivity() {
@@ -41,11 +30,16 @@ class SecondActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 for (boat in task.result!!) {
                     db.document((boat.data["port"] as DocumentReference).path).get().addOnSuccessListener {e->
-                        textView.text = "${textView.text} \n--------------------\nID: ${boat.id}\nNom: ${boat.data["boatName"]}\nCapitaine: ${boat.data["captainName"]}\nGeo: ${boat.data["localization"]}\nPort: " + e.data!!["name"].toString()
+                        showBoat(boat.id,boat.data["boatName"].toString(), boat.data["captainName"].toString(), boat.data["localization"].toString(), e.data!!["name"].toString())
                     }
                 }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun showBoat(id: String, name: String, captain: String, localization: String, port: String){
+        textView.text = "${textView.text} \n--------------------\nID: $id\nNom: $name\nCapitaine: $captain\nGeo: $localization\nPort: $port"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
