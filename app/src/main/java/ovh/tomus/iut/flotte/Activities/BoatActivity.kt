@@ -1,5 +1,6 @@
 package ovh.tomus.iut.flotte.Activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import ovh.tomus.iut.flotte.R
 class BoatActivity : AppCompatActivity() {
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boat)
@@ -27,8 +29,7 @@ class BoatActivity : AppCompatActivity() {
         boatName.text = boat.nomBateau + " (" + boat.idBateau + ")"
         captainName.text = boat.captainName
         coords.text = "[" + boat.latitude.toString() + "° N, " + boat.longitude.toString() + "° E]"
-        portText.text = port.toString()
-
+        portText.text = "Port de " + port.name + port.latitude + " " + port.longitude
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
