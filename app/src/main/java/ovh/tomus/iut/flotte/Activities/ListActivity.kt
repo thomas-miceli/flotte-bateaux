@@ -8,21 +8,20 @@ import android.support.constraint.ConstraintLayout
 import android.view.MenuItem
 import android.widget.Button
 import com.google.firebase.firestore.*
-import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.android.synthetic.main.activity_list.*
 import ovh.tomus.iut.flotte.R
 import android.support.constraint.ConstraintSet
-import android.util.Log
 import android.view.View.generateViewId
 import ovh.tomus.iut.flotte.Models.*
 
 
-class SecondActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
+        setContentView(R.layout.activity_list)
 
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
