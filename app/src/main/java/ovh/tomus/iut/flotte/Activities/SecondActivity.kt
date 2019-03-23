@@ -1,12 +1,20 @@
 package ovh.tomus.iut.flotte.Activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.view.MenuItem
+import android.widget.Button
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_second.*
 import ovh.tomus.iut.flotte.R
+import android.support.constraint.ConstraintSet
+import android.util.Log
+import android.view.View.generateViewId
+import ovh.tomus.iut.flotte.Models.*
+
 
 class SecondActivity : AppCompatActivity() {
 
@@ -19,27 +27,62 @@ class SecondActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
+        val layout = findViewById<ConstraintLayout>(R.id.layout)
+
         getContainerShips()
     }
 
     @SuppressLint("SetTextI18n")
     fun getContainerShips() {
-        val boats = db.collection("containerShips")
-
-        boats.get().addOnCompleteListener { task ->
+        db.collection("containerShips").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (boat in task.result!!) {
+                    val port = Port(0, "null", 0.0, 0.0)
+
+
                     db.document((boat.data["port"] as DocumentReference).path).get().addOnSuccessListener {e->
-                        showBoat(boat.id,boat.data["boatName"].toString(), boat.data["captainName"].toString(), boat.data["localization"].toString(), e.data!!["name"].toString())
+                        val localizationport = e["localization"] as GeoPoint
+                        port.id = 10
+                        port.name = e["name"].toString()
+                        port.latitude = localizationport.latitude
+                        port.longitude = localizationport.longitude
                     }
+
+
+                    val containershipType = ContainershipType(1, 50, 410, 60)
+                    val collection : Collection<Container> = listOf()
+                    val localization = boat.data["localization"] as GeoPoint
+
+                    showBoat(Containership(10, boat.data["boatName"].toString(),
+                        boat.data["captainName"].toString(), localization.latitude, localization.longitude, port, containershipType, collection))
+
                 }
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    fun showBoat(id: String, name: String, captain: String, localization: String, port: String){
-        textView.text = "${textView.text} \n--------------------\nID: $id\nNom: $name\nCapitaine: $captain\nGeo: $localization\nPort: $port"
+    fun showBoat(containership : Containership){
+        val button = Button(this)
+
+        button.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+        button.text = containership.nomBateau
+        button.id = generateViewId()
+
+        button.setOnClickListener {
+            val page = Intent(this, BoatActivity::class.java)
+
+            page.putExtra("BOAT", containership)
+            page.putExtra("PORT", containership.port)
+
+            startActivity(page)
+        }
+
+        layout.addView(button)
+        val set = ConstraintSet()
+        set.clone(layout)
+        set.connect(button.id, ConstraintSet.TOP, button.id+1, ConstraintSet.BOTTOM, 25)
+        set.applyTo(layout)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
