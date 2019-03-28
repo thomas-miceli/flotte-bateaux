@@ -14,17 +14,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click(view: View) {
-        val game : Intent
+        lateinit var game : Intent
         when (view.getId()) {
             R.id.btnOne -> {
                 game = Intent(this, LogInActivity::class.java)
-                startActivity(game)
             }
             R.id.btnTwo -> {
-                game = Intent(this, BoatEditorActivity::class.java)
-                startActivity(game)
+                game = Intent(this, ListActivity::class.java)
+            }
+            R.id.btnThree -> {
+                game = Intent(this, AddBoatActivity::class.java)
             }
         }
+        startActivity(game)
+
 
     }
 }

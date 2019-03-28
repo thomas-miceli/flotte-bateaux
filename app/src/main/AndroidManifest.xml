@@ -28,8 +28,8 @@
                 android:label="Act 1">
         </activity>
         <activity
-                android:name=".Activities.SecondActivity"
-                android:label="Act 2">
+                android:name=".Activities.ListActivity"
+                android:label="Liste">
         </activity>
 
         <!--
@@ -67,6 +67,10 @@
         <activity
                 android:name=".Activities.BoatActivity"
                 android:label="Bateau">
+        </activity>
+        <activity
+                android:name=".Activities.AddBoatActivity"
+                android:label="Ajout d'un Bateau">
         </activity>
 
 
