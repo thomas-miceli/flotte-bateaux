@@ -2,18 +2,16 @@ package ovh.tomus.iut.flotte.Activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
-import kotlinx.android.synthetic.main.add_boat.*
+import kotlinx.android.synthetic.main.activity_addboat.*
 import ovh.tomus.iut.flotte.R
 import android.widget.ArrayAdapter
 import android.widget.Toast
 
 
-class AddBoat : AppCompatActivity() {
+class AddBoatActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
     var boats = db.collection("containerShips")
@@ -22,7 +20,7 @@ class AddBoat : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_boat)
+        setContentView(R.layout.activity_addboat)
 
         getHarbours()
     }
@@ -44,17 +42,21 @@ class AddBoat : AppCompatActivity() {
     }
 
     fun addBoat(view: View) {
-        var boatName : String = boatname.text.toString()
-        var captainName : String = captainname.text.toString()
-        var localization = GeoPoint(editText7.text.toString().toDouble(), editText8.text.toString().toDouble())
-        var harbour : DocumentReference = harbourList.get(harbourspinner.selectedItem) as DocumentReference
-        var data = HashMap<String, Any>()
+        val boatName : String = boatname.text.toString()
+        val captainName : String = captainname.text.toString()
+        val localization = GeoPoint(editText7.text.toString().toDouble(), editText8.text.toString().toDouble())
+        val harbour : String = harbourList.get(harbourspinner.selectedItem).toString()
+        val data = HashMap<String, Any>()
 
         data["boatName"] = boatName
         data["captainName"] = captainName
         data["localization"] = localization
         data["port"] = harbour
         boats.add(data)
+
+        Toast.makeText(this, "Bateau ajouté avec succès", Toast.LENGTH_SHORT).show()
+        finish()
+
 
     }
 

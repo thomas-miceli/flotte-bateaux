@@ -68,7 +68,7 @@
                 android:label="Bateau">
         </activity>
         <activity
-                android:name=".Activities.AddBoat"
+                android:name=".Activities.AddBoatActivity"
                 android:label="Ajout d'un Bateau">
         </activity>
 

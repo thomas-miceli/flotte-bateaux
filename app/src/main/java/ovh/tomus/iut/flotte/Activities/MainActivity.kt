@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(game)
             }
             R.id.btnTwo -> {
-                game = Intent(this, AddBoat::class.java)
+                game = Intent(this, AddBoatActivity::class.java)
                 startActivity(game)
             }
         }
