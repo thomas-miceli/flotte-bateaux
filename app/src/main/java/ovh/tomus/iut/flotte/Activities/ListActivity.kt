@@ -53,7 +53,7 @@ class ListActivity : AppCompatActivity() {
                     val localization = boat.data["localization"] as GeoPoint
 
                     showBoat(Containership(10, boat.data["boatName"].toString(),
-                        boat.data["captainName"].toString(), localization.latitude, localization.longitude, port, containershipType, collection))
+                        boat.data["captainName"].toString(), localization.latitude, localization.longitude, port, containershipType, collection), boat.reference.path)
 
                 }
             }
@@ -61,7 +61,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun showBoat(containership : Containership){
+    fun showBoat(containership : Containership, docref : String){
         val button = Button(this)
 
         button.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
@@ -73,6 +73,7 @@ class ListActivity : AppCompatActivity() {
 
             page.putExtra("BOAT", containership)
             page.putExtra("PORT", containership.port)
+            page.putExtra("DOCREF", docref.toString())
 
             startActivity(page)
         }
