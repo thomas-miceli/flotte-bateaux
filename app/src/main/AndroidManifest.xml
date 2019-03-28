@@ -56,12 +56,13 @@
                 android:name=".Activities.LogInActivity"
                 android:label="Connexion">
         </activity>
-        <activity android:name=".Activities.SignUpGoogleActivity" android:label="Inscription avec Google">
+        <activity
+                android:name=".Activities.SignUpGoogleActivity"
+                android:label="Inscription avec Google">
         </activity>
         <activity
-                android:name=".Activities.BoateditorActivity"
-                android:label="@string/title_activity_boateditor"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:name=".Activities.BoatEditorActivity"
+                android:label="Édition du bateau">
         </activity>
         <activity
                 android:name=".Activities.BoatActivity"
