@@ -1,5 +1,7 @@
 package ovh.tomus.iut.flotte.Models
 
-class ContainerShipContainer (var containershipid:Int, var containerid:Int) {
+import java.io.Serializable
+
+class ContainerShipContainer (var containershipid:Int, var containerid:Int) : Serializable {
 
 }

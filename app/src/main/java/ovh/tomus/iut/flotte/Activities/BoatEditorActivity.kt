@@ -2,6 +2,7 @@ package ovh.tomus.iut.flotte.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,13 +40,24 @@ class BoatEditorActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     fun updateData (view: View){
+        println(intent.getStringExtra("DOCREF"))
         val boatAttribute = mutableMapOf<String,Any>()
         val boatName = edit_boatname.text.toString()
         val boatType = edit_boattype.text.toString()
 
         val captainName = edit_captainname.text.toString()
-        val containerShipRef = db.collection("containerShips").document("DoIRXz31Lnugf63og9N3")
+        val containerShipRef = db.document(intent.getStringExtra("DOCREF"))
 
         if (boatName.isNotEmpty()) boatAttribute["boatName"] = boatName
         if (captainName.isNotEmpty()) boatAttribute["captainName"] = captainName
@@ -55,6 +67,8 @@ class BoatEditorActivity : AppCompatActivity() {
 
         for (attribute in boatAttribute)
             containerShipRef.update(attribute.key, attribute.value)
+
+        finish()
 
     }
 
