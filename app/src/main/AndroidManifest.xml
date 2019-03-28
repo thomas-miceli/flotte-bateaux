@@ -62,8 +62,7 @@
         </activity>
         <activity
                 android:name=".Activities.BoatEditorActivity"
-                android:label="@string/title_activity_boat_editor"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:label="Édition du bateau">
         </activity>
         <activity
                 android:name=".Activities.BoatActivity"
