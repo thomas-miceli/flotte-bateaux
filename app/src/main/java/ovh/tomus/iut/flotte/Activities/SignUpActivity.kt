@@ -25,17 +25,18 @@ class SignUpActivity : AppCompatActivity() {
         val email = inputMail.text.toString()
         val mdp = inputMdp.text.toString()
         val pseudo = inputPseudo.text.toString()
-        firebaseAuth.createUserWithEmailAndPassword(email,mdp).addOnCompleteListener{task ->
-            if(task.isSuccessful){
-                val data = HashMap<String, Any>()
-                data["id"] = firebaseAuth.currentUser!!.uid
-                data["pseudo"] = pseudo
-                db.collection("users").add(data)
-                Toast.makeText(applicationContext,"Utilisateur créé avec succès",Toast.LENGTH_LONG).show()
-                finish()
-            }
-            else {
-                Toast.makeText(applicationContext,"Erreur de création de l'utilisateur",Toast.LENGTH_LONG).show()
+        if (email.isNotBlank() && mdp.isNotBlank() && pseudo.isNotBlank()) {
+            firebaseAuth.createUserWithEmailAndPassword(email, mdp).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val data = HashMap<String, Any>()
+                    data["id"] = firebaseAuth.currentUser!!.uid
+                    data["pseudo"] = pseudo
+                    db.collection("users").add(data)
+                    Toast.makeText(applicationContext, "Utilisateur créé avec succès", Toast.LENGTH_LONG).show()
+                    finish()
+                } else {
+                    Toast.makeText(applicationContext, "Erreur de création de l'utilisateur", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

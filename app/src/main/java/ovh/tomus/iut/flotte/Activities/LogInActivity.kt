@@ -51,29 +51,30 @@ class LogInActivity : AppCompatActivity()  {
     fun connect(view: View) {
         val email = inputMail.text.toString()
         val mdp = inputMdp.text.toString()
-        firebaseAuth.signInWithEmailAndPassword(email,mdp).addOnCompleteListener{task ->
-            if(task.isSuccessful){
-                Toast.makeText(applicationContext,"Connexion réussie", Toast.LENGTH_LONG).show()
+        if (email.isNotBlank() && mdp.isNotBlank()) {
+            firebaseAuth.signInWithEmailAndPassword(email, mdp).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(applicationContext, "Connexion réussie", Toast.LENGTH_LONG).show()
 
-                val uid = firebaseAuth.currentUser!!.uid
-                val users = db.collection("users")
+                    val uid = firebaseAuth.currentUser!!.uid
+                    val users = db.collection("users")
 
-                users.get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (document in task.result!!) {
-                            if (uid == document.data["id"].toString()) {
-                                val pseudo = document.data["pseudo"].toString()
-                                whenLoggedIn(uid, pseudo, firebaseAuth.currentUser!!.email!!)
+                    users.get().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            for (document in task.result!!) {
+                                if (uid == document.data["id"].toString()) {
+                                    val pseudo = document.data["pseudo"].toString()
+                                    whenLoggedIn(uid, pseudo, firebaseAuth.currentUser!!.email!!)
+                                }
                             }
                         }
+
                     }
 
+
+                } else {
+                    Toast.makeText(applicationContext, "Echec de connexion", Toast.LENGTH_LONG).show()
                 }
-
-
-            }
-            else {
-                Toast.makeText(applicationContext,"Echec de connexion", Toast.LENGTH_LONG).show()
             }
         }
     }
