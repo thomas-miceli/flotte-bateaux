@@ -11,18 +11,29 @@ import ovh.tomus.iut.flotte.R
 class BoatEditorActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
-    //var boatAttribute = mutableMapOf<String,String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boat_editor)
-        val boatName = edit_boatname.text.toString()
-        //boatAttribute["boatName"] = boatName
     }
 
     fun updateData (view: View){
-        val containerShipRef = db.collection("containerShips").document("JEaTarJj3Yg9aaRJTIct")
-        containerShipRef.update("boatName", boatName)
+        var boatAttribute = mutableMapOf<String,String>()
+        val boatName = edit_boatname.text.toString()
+        val boatType = edit_boattype.text.toString()
+        val startHarbor = edit_harborstart.text.toString()
+        val captainName = edit_captainname.text.toString()
+        val containerShipRef = db.collection("containerShips").document("RvZqocZSKqBNFRNlV5wb")
+        if (boatName.isNotEmpty()) boatAttribute["boatName"] = boatName
+        if (captainName.isNotEmpty()) boatAttribute["captainName"] = captainName
+        if (boatType.isNotEmpty()) boatAttribute["boatType"] = boatType
+        if (startHarbor.isNotEmpty()) boatAttribute["startHarbor"] = startHarbor
+        println(boatAttribute)
+        for (attribute in boatAttribute)
+        {
+            containerShipRef.update(attribute.key, attribute.value)
+            println("passedmaj")
+        }
     }
 
 }

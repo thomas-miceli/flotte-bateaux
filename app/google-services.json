@@ -39,27 +39,27 @@
           }
         },
         {
-          "client_id": "510201343666-3hulsc87dm5ricnv1u16avsf4kk909gs.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ovh.tomus.iut.flotte",
-            "certificate_hash": "6c87a0964dd50597fae8e6c1eefd416d73e25ccf"
-          }
-        },
-        {
-          "client_id": "510201343666-2igc15t28d3po7tcl6823nk2k0tj3npm.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ovh.tomus.iut.flotte",
-            "certificate_hash": "108fcf6aaf6248663f5e56d9e26ed5cc42e04a75"
-          }
-        },
-        {
           "client_id": "510201343666-m0qqdq7j2sdgu7qtn6fsu304s1an6cig.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ovh.tomus.iut.flotte",
             "certificate_hash": "8c9ca161c88b140c20fd063180e196a3f31040a5"
+          }
+        },
+        {
+          "client_id": "510201343666-2csldumk8p000tkbfb4s4jjm99b131h8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ovh.tomus.iut.flotte",
+            "certificate_hash": "cd5102fcde1230c186150ed3f41ac2c170425096"
+          }
+        },
+        {
+          "client_id": "510201343666-t5geohvoch5sp5m85sb5kdi451gh2bms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ovh.tomus.iut.flotte",
+            "certificate_hash": "72e1889dd4a0feef77664c1fb21d0776fa1cd02a"
           }
         },
         {
