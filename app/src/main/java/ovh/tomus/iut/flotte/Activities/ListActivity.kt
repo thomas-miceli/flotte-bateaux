@@ -36,44 +36,24 @@ class ListActivity : AppCompatActivity() {
         db.collection("containerShips").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (boat in task.result!!) {
-                    val port = Port(0, "null", 0.0, 0.0)
-
-
-                    db.document((boat.data["port"] as DocumentReference).path).get().addOnSuccessListener {e->
-                        val localizationport = e["localization"] as GeoPoint
-                        port.id = 10
-                        port.name = e["name"].toString()
-                        port.latitude = localizationport.latitude
-                        port.longitude = localizationport.longitude
-                    }
-
-
-                    val containershipType = ContainershipType(1, 50, 410, 60)
-                    val collection : Collection<Container> = listOf()
-                    val localization = boat.data["localization"] as GeoPoint
-
-                    showBoat(Containership(10, boat.data["boatName"].toString(),
-                        boat.data["captainName"].toString(), localization.latitude, localization.longitude, port, containershipType, collection), boat.reference.path)
-
+                    showBoat(boat.data["boatName"].toString(), boat.reference.path)
                 }
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    fun showBoat(containership : Containership, docref : String){
+    fun showBoat(nomBateau : String, docref : String){
         val button = Button(this)
 
         button.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        button.text = containership.nomBateau
+        button.text = nomBateau
         button.id = generateViewId()
 
         button.setOnClickListener {
             val page = Intent(this, BoatActivity::class.java)
 
-            page.putExtra("BOAT", containership)
-            page.putExtra("PORT", containership.port)
-            page.putExtra("DOCREF", docref.toString())
+            page.putExtra("DOCREF", docref)
 
             startActivity(page)
         }

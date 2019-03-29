@@ -1,11 +1,15 @@
 package ovh.tomus.iut.flotte.Activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
 
 import ovh.tomus.iut.flotte.Models.*
@@ -13,11 +17,10 @@ import ovh.tomus.iut.flotte.R
 
 class BoatActivity : AppCompatActivity() {
 
-    private lateinit var boat : Containership
-    private lateinit var port : Port
     private lateinit var docref : String
 
-    @SuppressLint("SetTextI18n")
+    private val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boat)
@@ -25,16 +28,16 @@ class BoatActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
-        boat = intent.getSerializableExtra("BOAT") as Containership
-        port = intent.getSerializableExtra("PORT") as Port
         docref = intent.getStringExtra("DOCREF")
 
-        title = boat.nomBateau
+        loadData()
+    }
 
-        boatName.text = boat.nomBateau + " (" + boat.idBateau + ")"
-        captainName.text = boat.captainName
-        coords.text = "[" + boat.latitude.toString() + "° N, " + boat.longitude.toString() + "° E]"
-        portText.text = "Port de " + port.name + port.latitude + " " + port.longitude
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            loadData()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -47,13 +50,34 @@ class BoatActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("SetTextI18n")
+    fun loadData() {
+
+        // Load bateau
+        db.document(docref).get().addOnSuccessListener { containerShip ->
+            title = containerShip["boatName"].toString()
+            val geopoint : GeoPoint = containerShip["localization"] as GeoPoint
+
+            boatName.text = containerShip["boatName"].toString()
+            captainName.text = containerShip["captainName"].toString()
+            coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
+            val portref = containerShip["port"] as DocumentReference
+
+            // Load port
+            db.document(portref.path).get().addOnSuccessListener { port ->
+                portText.text = port["name"].toString()
+            }
+        }
+
+
+    }
+
     fun edit(view : View) {
         val page = Intent(this, BoatEditorActivity::class.java)
 
-        page.putExtra("BOAT", boat)
         page.putExtra("DOCREF", docref)
 
-        startActivity(page)
+        startActivityForResult(page, 1)
     }
 
 }
