@@ -36,18 +36,18 @@ class ListActivity : AppCompatActivity() {
         db.collection("containerShips").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (boat in task.result!!) {
-                    showBoat(boat.data["boatName"].toString(), boat.reference.path)
+                    showBoat(boat.data["boatName"].toString(), boat.data["captainName"].toString(), boat.reference.path)
                 }
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    fun showBoat(nomBateau : String, docref : String){
+    fun showBoat(nomBateau : String, nomCapitaine : String, docref : String){
         val button = Button(this)
 
         button.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        button.text = nomBateau
+        button.text = nomBateau + " - " + nomCapitaine
         button.id = generateViewId()
 
         button.setOnClickListener {

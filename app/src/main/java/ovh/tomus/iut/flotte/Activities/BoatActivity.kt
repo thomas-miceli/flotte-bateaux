@@ -62,10 +62,15 @@ class BoatActivity : AppCompatActivity() {
             captainName.text = containerShip["captainName"].toString()
             coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
             val portref = containerShip["port"] as DocumentReference
+            val typeref = containerShip["boatType"] as DocumentReference
 
             // Load port
             db.document(portref.path).get().addOnSuccessListener { port ->
                 portText.text = port["name"].toString()
+            }
+
+            db.document(typeref.path).get().addOnSuccessListener { type ->
+                typeText.text = type["name"].toString()
             }
         }
 

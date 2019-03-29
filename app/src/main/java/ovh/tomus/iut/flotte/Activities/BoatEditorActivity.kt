@@ -18,7 +18,10 @@ class BoatEditorActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private var harbours = db.collection("harbours")
+    private var containershiptypes = db.collection("containership-type")
+
     private var harbourList = mutableMapOf<String, String>()
+    private var typeList = mutableMapOf<String, String>()
 
     private lateinit var docref : String
 
@@ -31,6 +34,7 @@ class BoatEditorActivity : AppCompatActivity() {
         docref = intent.getStringExtra("DOCREF")
 
         getHarbours()
+        getTypesContainerships()
     }
 
     fun getHarbours() {
@@ -48,6 +52,22 @@ class BoatEditorActivity : AppCompatActivity() {
         }
     }
 
+    fun getTypesContainerships() {
+        containershiptypes.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (types in task.result!!) {
+                    typeList[types.data["name"].toString()] = types.id
+                }
+
+                val adapter = ArrayAdapter(
+                    this, android.R.layout.simple_spinner_item, typeList.keys.toTypedArray()
+                )
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                typespinner.adapter = adapter
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> {
@@ -60,9 +80,10 @@ class BoatEditorActivity : AppCompatActivity() {
 
     fun updateData (view: View){
         val boatAttribute = mutableMapOf<String,Any>()
+        val containerShipRef = db.document(docref)
+
         val boatName = edit_boatname.text.toString()
         val captainName = edit_captainname.text.toString()
-        val containerShipRef = db.document(docref)
 
         // Si la nouvelle latitude/longitude n'est pas renseignée alors on remet les anciennes
         val latitudeInput = latitudeInput.text.toString()
@@ -88,6 +109,7 @@ class BoatEditorActivity : AppCompatActivity() {
         }
 
         boatAttribute["port"] = harbours.document(harbourList.get(harbourspinner.selectedItem).toString())
+        boatAttribute["boatType"] = containershiptypes.document(typeList.get(typespinner.selectedItem).toString())
 
         boatAttribute["localization"] = GeoPoint(latitude, longitude)
 
