@@ -25,16 +25,14 @@ class BoatActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
-        boat = intent.getSerializableExtra("BOAT") as Containership
-        port = intent.getSerializableExtra("PORT") as Port
         docref = intent.getStringExtra("DOCREF")
-
+/*
         title = boat.nomBateau
 
         boatName.text = boat.nomBateau + " (" + boat.idBateau + ")"
         captainName.text = boat.captainName
         coords.text = "[" + boat.latitude.toString() + "° N, " + boat.longitude.toString() + "° E]"
-        portText.text = "Port de " + port.name + port.latitude + " " + port.longitude
+        portText.text = "Port de " + port.name + port.latitude + " " + port.longitude*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,6 +49,14 @@ class BoatActivity : AppCompatActivity() {
         val page = Intent(this, BoatEditorActivity::class.java)
 
         page.putExtra("BOAT", boat)
+        page.putExtra("DOCREF", docref)
+
+        startActivity(page)
+    }
+
+    fun map(view : View) {
+        val page = Intent(this,BoatsMapActivity::class.java)
+
         page.putExtra("DOCREF", docref)
 
         startActivity(page)

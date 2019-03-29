@@ -48,7 +48,7 @@
                 android:value="AIzaSyB6_-IKhfQ2JwYVSdmQgg1_rCMNGxmmY5g"/>
 
         <activity
-                android:name=".Activities.Boats_map"
+                android:name=".Activities.BoatsMapActivity"
                 android:label="Bateaux">
         </activity>
         <activity
