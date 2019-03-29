@@ -21,7 +21,7 @@ class AddBoatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addboat)
+        setContentView(R.layout.activity_addboat2)
 
         getHarbours()
     }

@@ -5,56 +5,85 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.LogInActivity">
+        tools:context=".Activities.LogInActivity"
+        android:background="#000000">
 
     <EditText
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/inputMail"
-            android:hint="@string/email" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="90dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp"
+            android:backgroundTint="#FFFFFF"
+            android:hint="@string/email" android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp" android:layout_width="0dp"
             android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_height="wrap_content" android:autofillHints=""/>
+            app:layout_constraintHorizontal_bias="0.0" android:layout_height="wrap_content" android:autofillHints=""
+            app:layout_constraintTop_toBottomOf="@+id/imageView"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/inputMdp"
-            android:hint="@string/mot_de_passe" android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:textSize="18sp"
+            android:hint="@string/mot_de_passe"
             app:layout_constraintTop_toBottomOf="@+id/inputMail" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="50dp" app:layout_constraintHorizontal_bias="0.0" android:autofillHints=""/>
+            android:layout_marginEnd="50dp" app:layout_constraintHorizontal_bias="1.0" android:autofillHints=""/>
     <Button
             android:text="@string/connexion"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:background="@drawable/buttonshape"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/loginButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
             android:onClick="connect" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"/>
     <Button
             android:text="@string/inscription"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:background="@drawable/buttonshape"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/signupButton"
             android:onClick="signup" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" app:layout_constraintHorizontal_bias="0.0"
-    />
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginTop="10dp"/>
     <Button
             android:text="@string/google"
+            android:textAlignment="viewStart"
+            android:textColor="#7a7a7a"
+            android:textSize="15sp"
+            android:background="@drawable/googlebutton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:paddingStart="97dp"
+            android:drawableStart="@drawable/googleiconresized"
             android:id="@+id/googleButton"
             android:onClick="signWithGoogle"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="148dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="148dp" android:layout_marginTop="18dp"
-            app:layout_constraintTop_toBottomOf="@+id/signupButton" android:layout_marginBottom="131dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginBottom="50dp"/>
+    <ImageView
+            android:layout_width="176dp"
+            android:layout_height="176dp"
+            android:id="@+id/imageView"
+            app:srcCompat="@drawable/boatlogo"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="30dp"
+            app:layout_constraintTop_toTopOf="parent" android:contentDescription="BOATICON"/>
 
 
 </android.support.constraint.ConstraintLayout>
