@@ -85,4 +85,12 @@ class BoatActivity : AppCompatActivity() {
         startActivityForResult(page, 1)
     }
 
+    fun map(view : View) {
+        val page = Intent(this,BoatsMapActivity::class.java)
+
+        page.putExtra("DOCREF", docref)
+
+        startActivity(page)
+    }
+
 }
