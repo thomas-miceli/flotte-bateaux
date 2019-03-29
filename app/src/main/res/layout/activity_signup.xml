@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activities.SignUpActivity">
+        tools:context=".Activities.SignUpActivity"
+        android:background="#000000">
 
     <EditText
             android:layout_width="0dp"
@@ -13,20 +14,29 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/inputMail"
-            android:hint="Email" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="90dp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp"
+            android:backgroundTint="#FFFFFF"
+            android:hint="Email" android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toBottomOf="@+id/textView7"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/inputMdp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp"
+            android:backgroundTint="#FFFFFF"
             android:hint="Mot de passe" android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/inputMail" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="20dp" app:layout_constraintBottom_toTopOf="@+id/inputPseudo"/>
+            app:layout_constraintHorizontal_bias="0.0"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,19 +44,36 @@
             android:ems="10"
             android:id="@+id/inputPseudo"
             android:hint="Pseudo"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp"
+            android:backgroundTint="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
-            android:layout_marginBottom="14dp" app:layout_constraintBottom_toTopOf="@+id/submit"/>
+            android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
+    />
     <Button
-            android:text="Inscription"
+            android:text="S'inscrire"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
             android:id="@+id/submit" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
             android:onClick="submit" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="3dp"
-            app:layout_constraintTop_toBottomOf="@+id/inputPseudo"/>
+            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginBottom="50dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/textView7" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp" tools:text="Inscription"
+            android:layout_marginTop="80dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
 
 </android.support.constraint.ConstraintLayout>
