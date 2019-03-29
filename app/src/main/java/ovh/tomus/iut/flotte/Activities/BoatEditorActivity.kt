@@ -75,7 +75,7 @@ class BoatEditorActivity : AppCompatActivity() {
         val boatAttribute = mutableMapOf<String,Any>()
         val boatName = edit_boatname.text.toString()
         val boatType = edit_boattype.text.toString()
-        //val boatcontainers = containers.document(containerList.get(containerspinner.selectedItem).toString())
+        val boatcontainers = containers.document(containerList.get(containerspinner.selectedItem.toString().toInt()))
 
         val captainName = edit_captainname.text.toString()
         val containerShipRef = db.document(intent.getStringExtra("DOCREF"))
@@ -84,6 +84,7 @@ class BoatEditorActivity : AppCompatActivity() {
         if (boatName.isNotEmpty()) boatAttribute["boatName"] = boatName
         if (captainName.isNotEmpty()) boatAttribute["captainName"] = captainName
         //if (boatType.isNotEmpty()) boatAttribute["boatType"] = boatType
+        //condition (la taille totale des conteneurs n'excede pas celle du bateau) on ajoute le conteneur !
 
         boatAttribute["port"] = harbours.document(harbourList.get(harbourspinner.selectedItem).toString())
 
