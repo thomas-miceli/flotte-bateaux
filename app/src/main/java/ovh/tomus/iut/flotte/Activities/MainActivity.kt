@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity() {
             R.id.btnThree -> {
                 game = Intent(this, AddBoatActivity::class.java)
             }
-            R.id.btnFour -> {
-                game = Intent(this, BoatsMapActivity::class.java)
-            }
         }
         startActivity(game)
 
