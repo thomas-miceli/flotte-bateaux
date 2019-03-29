@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_boat.*
 import kotlinx.android.synthetic.main.activity_boat_editor.*
+
+import ovh.tomus.iut.flotte.Models.Container
 import ovh.tomus.iut.flotte.R
 
 class BoatEditorActivity : AppCompatActivity() {
@@ -15,6 +17,8 @@ class BoatEditorActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var harbours = db.collection("harbours")
     private var harbourList = mutableMapOf<String, String>()
+    var containers=db.collection("container")
+    var containerList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +27,7 @@ class BoatEditorActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         
         getHarbours()
+        getContainers()
     }
 
     fun getHarbours() {
@@ -36,6 +41,21 @@ class BoatEditorActivity : AppCompatActivity() {
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 harbourspinner.adapter = adapter
+            }
+        }
+    }
+
+    fun getContainers() {
+        containers.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (container in task.result!!) {
+                    containerList.add(container.reference.path)
+                }
+                val adapter = ArrayAdapter(
+                    this, android.R.layout.simple_spinner_item, containerList.toTypedArray()
+                )
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                containerspinner.adapter = adapter
             }
         }
     }
@@ -55,9 +75,11 @@ class BoatEditorActivity : AppCompatActivity() {
         val boatAttribute = mutableMapOf<String,Any>()
         val boatName = edit_boatname.text.toString()
         val boatType = edit_boattype.text.toString()
+        //val boatcontainers = containers.document(containerList.get(containerspinner.selectedItem).toString())
 
         val captainName = edit_captainname.text.toString()
         val containerShipRef = db.document(intent.getStringExtra("DOCREF"))
+
 
         if (boatName.isNotEmpty()) boatAttribute["boatName"] = boatName
         if (captainName.isNotEmpty()) boatAttribute["captainName"] = captainName
