@@ -65,13 +65,13 @@
             app:layout_constraintHorizontal_bias="1.0"
             android:layout_marginBottom="50dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
-            android:text="TextView"
+            android:text="Inscription"
             android:textColor="#FFFFFF"
             android:textSize="40sp"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:id="@+id/textView7" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp" tools:text="Inscription"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
             android:layout_marginTop="80dp" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.0"/>
 
