@@ -33,7 +33,7 @@ class AddBoatActivity : AppCompatActivity() {
                     harbourList[harbour.data["name"].toString()] = harbour.id
                 }
                 val adapter = ArrayAdapter(
-                    this, android.R.layout.simple_spinner_item, harbourList.keys.toTypedArray()
+                    this, R.layout.spinner_item, harbourList.keys.toTypedArray()
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 harbourspinner.adapter = adapter

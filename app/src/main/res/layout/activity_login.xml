@@ -59,23 +59,6 @@
             android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
             app:layout_constraintTop_toBottomOf="@+id/loginButton" app:layout_constraintHorizontal_bias="1.0"
             android:layout_marginTop="10dp"/>
-    <Button
-            android:text="@string/google"
-            android:textAlignment="viewStart"
-            android:textColor="#7a7a7a"
-            android:textSize="15sp"
-            android:background="@drawable/googlebutton"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:paddingStart="97dp"
-            android:drawableStart="@drawable/googleiconresized"
-            android:id="@+id/googleButton"
-            android:onClick="signWithGoogle"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="50dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="50dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="50dp"/>
     <ImageView
             android:layout_width="176dp"
             android:layout_height="176dp"
@@ -85,5 +68,31 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="30dp"
             app:layout_constraintTop_toTopOf="parent" android:contentDescription="BOATICON"/>
 
+    <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/googleButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:onClick="signWithGoogle"
+            android:background="@drawable/googlebutton"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="50dp"
+            tools:layout_editor_absoluteY="541dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GOOGLE"
+                android:background="#FFFFFF"
+                android:textColor="#878787"
+                android:drawableLeft="@drawable/googleiconresized"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textSize="15sp"
+        />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
