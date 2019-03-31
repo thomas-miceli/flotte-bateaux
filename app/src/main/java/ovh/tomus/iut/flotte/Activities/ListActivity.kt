@@ -13,6 +13,13 @@ import ovh.tomus.iut.flotte.R
 import android.support.constraint.ConstraintSet
 import android.view.View.generateViewId
 import ovh.tomus.iut.flotte.Models.*
+import android.widget.ListView
+import android.widget.ArrayAdapter
+import android.app.Activity
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.view.View
+import kotlinx.android.synthetic.main.listview_item.*
 
 
 class ListActivity : AppCompatActivity() {
@@ -26,8 +33,6 @@ class ListActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
-        val layout = findViewById<ConstraintLayout>(R.id.layout)
-
         getContainerShips()
     }
 
@@ -35,34 +40,24 @@ class ListActivity : AppCompatActivity() {
     fun getContainerShips() {
         db.collection("containerShips").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
-                for (boat in task.result!!) {
-                    showBoat(boat.data["boatName"].toString(), boat.data["captainName"].toString(), boat.reference.path)
+                var boatnames = mutableMapOf<String, String>()
+                for (boat in task.result!!)
+                    boatnames[boat.data["boatName"].toString()] = boat.reference.path
+
+                val adapter = ArrayAdapter<String>(this, R.layout.listview_item, boatnames.keys.toTypedArray())
+                listview.setAdapter(adapter)
+
+                val page = Intent(this, BoatActivity::class.java)
+
+                listview.onItemClickListener = object : OnItemClickListener {
+                    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val item = parent!!.getItemAtPosition(position)
+                        page.putExtra("DOCREF", boatnames[item])
+                        startActivity(page)
+                    }
                 }
             }
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun showBoat(nomBateau : String, nomCapitaine : String, docref : String){
-        val button = Button(this)
-
-        button.layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        button.text = nomBateau + " - " + nomCapitaine
-        button.id = generateViewId()
-
-        button.setOnClickListener {
-            val page = Intent(this, BoatActivity::class.java)
-
-            page.putExtra("DOCREF", docref)
-
-            startActivity(page)
-        }
-
-        layout.addView(button)
-        val set = ConstraintSet()
-        set.clone(layout)
-        set.connect(button.id, ConstraintSet.TOP, button.id+1, ConstraintSet.BOTTOM, 25)
-        set.applyTo(layout)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
