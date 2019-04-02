@@ -40,7 +40,7 @@ class ListActivity : AppCompatActivity() {
     fun getContainerShips() {
         db.collection("containerShips").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
-                var boatnames = mutableMapOf<String, String>()
+                val boatnames = mutableMapOf<String, String>()
                 for (boat in task.result!!)
                     boatnames[boat.data["boatName"].toString()] = boat.reference.path
 

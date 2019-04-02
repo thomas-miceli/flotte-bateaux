@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
 
-import ovh.tomus.iut.flotte.Models.*
 import ovh.tomus.iut.flotte.R
 
 class BoatActivity : AppCompatActivity() {
@@ -86,9 +85,27 @@ class BoatActivity : AppCompatActivity() {
     }
 
     fun map(view : View) {
-        val page = Intent(this,BoatsMapActivity::class.java)
+        val page = Intent(this, BoatsMapActivity::class.java)
 
         page.putExtra("DOCREF", docref)
+
+        startActivity(page)
+    }
+
+    fun listContainer(view: View) {
+        val page = Intent(this, ListConteneurActivity::class.java)
+
+        page.putExtra("DOCREF", docref)
+        page.putExtra("MODE", "list")
+
+        startActivity(page)
+    }
+
+    fun addContainer(view: View) {
+        val page = Intent(this, ListConteneurActivity::class.java)
+
+        page.putExtra("DOCREF", docref)
+        page.putExtra("MODE", "add")
 
         startActivity(page)
     }
