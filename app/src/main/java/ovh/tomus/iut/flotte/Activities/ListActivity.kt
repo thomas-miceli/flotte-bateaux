@@ -4,24 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.view.MenuItem
-import android.widget.Button
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_list.*
 import ovh.tomus.iut.flotte.R
-import android.support.constraint.ConstraintSet
-import android.view.View.generateViewId
-import ovh.tomus.iut.flotte.Models.*
-import android.widget.ListView
 import android.widget.ArrayAdapter
-import android.app.Activity
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.view.View
-import kotlinx.android.synthetic.main.listview_item.*
-
-
 class ListActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
@@ -48,6 +38,8 @@ class ListActivity : AppCompatActivity() {
                 listview.setAdapter(adapter)
 
                 val page = Intent(this, BoatActivity::class.java)
+
+                list_empty.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
 
                 listview.onItemClickListener = object : OnItemClickListener {
                     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

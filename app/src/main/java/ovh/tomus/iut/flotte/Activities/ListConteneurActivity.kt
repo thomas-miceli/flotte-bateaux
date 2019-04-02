@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_listconteneurs.*
 import ovh.tomus.iut.flotte.R
 
 class ListConteneurActivity : AppCompatActivity() {
@@ -32,8 +35,6 @@ class ListConteneurActivity : AppCompatActivity() {
             "add" -> addContainers()
             "list" -> listContainers()
         }
-
-
     }
 
     fun addContainers() {
@@ -47,15 +48,17 @@ class ListConteneurActivity : AppCompatActivity() {
                     }
                 }
 
-                var adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
-                listview.adapter = adapter
+                var adapter = ArrayAdapter<String>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
+                listview_container.adapter = adapter
 
-                listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+
+                listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val item = parent!!.getItemAtPosition(position)
                     refcontainers.remove(item.toString())
 
-                    adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
-                    listview.adapter = adapter
+                    adapter = ArrayAdapter<String>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
+                    listview_container.adapter = adapter
 
                     val updates = HashMap<String, Any>(); updates["containerShip"] = db.document(docref)
                     // Ajout
@@ -80,15 +83,17 @@ class ListConteneurActivity : AppCompatActivity() {
                     }
                 }
 
-                var adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
-                listview.adapter = adapter
+                var adapter = ArrayAdapter<String>(this, R.layout.listview_item_delete, refcontainers.toTypedArray())
+                listview_container.adapter = adapter
 
-                listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+
+                listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                     val item = parent!!.getItemAtPosition(position)
                     refcontainers.remove(item.toString())
 
-                    adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
-                    listview.adapter = adapter
+                    adapter = ArrayAdapter<String>(this, R.layout.listview_item_delete, refcontainers.toTypedArray())
+                    listview_container.adapter = adapter
 
                     val updates = HashMap<String, Any>(); updates["containerShip"] = FieldValue.delete()
                     // Suppression
