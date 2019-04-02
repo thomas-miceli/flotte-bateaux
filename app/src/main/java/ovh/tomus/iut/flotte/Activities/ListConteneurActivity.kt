@@ -60,6 +60,8 @@ class ListConteneurActivity : AppCompatActivity() {
                     adapter = ArrayAdapter<String>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
                     listview_container.adapter = adapter
 
+                    list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+
                     val updates = HashMap<String, Any>(); updates["containerShip"] = db.document(docref)
                     // Ajout
                     db.document(item.toString()).update(updates)
@@ -94,6 +96,8 @@ class ListConteneurActivity : AppCompatActivity() {
 
                     adapter = ArrayAdapter<String>(this, R.layout.listview_item_delete, refcontainers.toTypedArray())
                     listview_container.adapter = adapter
+
+                    list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
 
                     val updates = HashMap<String, Any>(); updates["containerShip"] = FieldValue.delete()
                     // Suppression
