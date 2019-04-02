@@ -27,11 +27,42 @@ class ListConteneurActivity : AppCompatActivity() {
 
         docref = intent.getStringExtra("DOCREF")
 
-        initContainers()
+        addContainers()
+
+
     }
 
-    fun initContainers() {
+    fun addContainers() {
+        containers.get().addOnCompleteListener { e ->
+            if (e.isSuccessful) {
+                val refcontainers = arrayListOf<String>()
+                for (container in e.result!!) {
+                    if (container.data["containerShip"] == null) {
+                        refcontainers.add(container.reference.path)
+                    }
+                }
 
+                var adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
+                listview.adapter = adapter
+
+                listview.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                    val item = parent!!.getItemAtPosition(position)
+                    refcontainers.remove(item.toString())
+
+                    adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
+                    listview.adapter = adapter
+
+                    val updates = HashMap<String, Any>(); updates["containerShip"] = docref
+                    // Suppression
+                    db.document(item.toString()).update(updates)
+                }
+
+
+            }
+        }
+    }
+
+    fun listContainers() {
         containers.get().addOnCompleteListener { e ->
             if (e.isSuccessful) {
                 val refcontainers = arrayListOf<String>()

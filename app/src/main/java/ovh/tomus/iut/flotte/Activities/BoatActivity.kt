@@ -96,14 +96,16 @@ class BoatActivity : AppCompatActivity() {
         val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("DOCREF", docref)
+        page.putExtra("MODE", "add")
 
         startActivity(page)
     }
 
     fun addContainer(view: View) {
-        val page = Intent(this, AddConteneurActivity::class.java)
+        val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("DOCREF", docref)
+        page.putExtra("MODE", "list")
 
         startActivity(page)
     }
