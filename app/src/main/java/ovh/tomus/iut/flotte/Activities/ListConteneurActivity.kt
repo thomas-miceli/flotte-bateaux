@@ -2,6 +2,7 @@ package ovh.tomus.iut.flotte.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -27,12 +28,16 @@ class ListConteneurActivity : AppCompatActivity() {
 
         docref = intent.getStringExtra("DOCREF")
 
-        addContainers()
+        when (intent.getStringExtra("MODE")) {
+            "add" -> addContainers()
+            "list" -> listContainers()
+        }
 
 
     }
 
     fun addContainers() {
+        title = "Conteneurs disponibles"
         containers.get().addOnCompleteListener { e ->
             if (e.isSuccessful) {
                 val refcontainers = arrayListOf<String>()
@@ -52,8 +57,8 @@ class ListConteneurActivity : AppCompatActivity() {
                     adapter = ArrayAdapter<String>(this, R.layout.listview_item, refcontainers.toTypedArray())
                     listview.adapter = adapter
 
-                    val updates = HashMap<String, Any>(); updates["containerShip"] = docref
-                    // Suppression
+                    val updates = HashMap<String, Any>(); updates["containerShip"] = db.document(docref)
+                    // Ajout
                     db.document(item.toString()).update(updates)
                 }
 
@@ -63,6 +68,7 @@ class ListConteneurActivity : AppCompatActivity() {
     }
 
     fun listContainers() {
+        title = "Conteneurs du bateau"
         containers.get().addOnCompleteListener { e ->
             if (e.isSuccessful) {
                 val refcontainers = arrayListOf<String>()

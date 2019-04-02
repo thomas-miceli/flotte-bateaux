@@ -96,7 +96,7 @@ class BoatActivity : AppCompatActivity() {
         val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("DOCREF", docref)
-        page.putExtra("MODE", "add")
+        page.putExtra("MODE", "list")
 
         startActivity(page)
     }
@@ -105,7 +105,7 @@ class BoatActivity : AppCompatActivity() {
         val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("DOCREF", docref)
-        page.putExtra("MODE", "list")
+        page.putExtra("MODE", "add")
 
         startActivity(page)
     }
