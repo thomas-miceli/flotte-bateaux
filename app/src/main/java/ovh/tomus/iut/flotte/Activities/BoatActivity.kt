@@ -3,6 +3,7 @@ package ovh.tomus.iut.flotte.Activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -13,6 +14,9 @@ import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
 
 import ovh.tomus.iut.flotte.R
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
 class BoatActivity : AppCompatActivity() {
 
@@ -66,6 +70,15 @@ class BoatActivity : AppCompatActivity() {
             // Load port
             db.document(portref.path).get().addOnSuccessListener { port ->
                 portText.text = port["name"].toString()
+                val geopointport : GeoPoint = port["localization"] as GeoPoint
+                val locationboat = Location("locationboat")
+                val locationport = Location("locationport")
+                locationboat.latitude = geopoint.latitude
+                locationboat.longitude = geopoint.longitude
+                locationport.latitude = geopointport.latitude
+                locationport.longitude = geopointport.longitude
+                val distancebetween = locationboat.distanceTo(locationport) / 1000
+                distancebateau.text = distancebetween.toString()
             }
 
             db.document(typeref.path).get().addOnSuccessListener { type ->

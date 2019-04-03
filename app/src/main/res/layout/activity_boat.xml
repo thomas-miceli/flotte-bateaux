@@ -167,4 +167,10 @@
             android:onClick="listContainer" android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/button2" android:background="@drawable/buttonshape"
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="292dp"
+            android:layout_height="37dp" tools:layout_editor_absoluteY="25dp"
+            tools:layout_editor_absoluteX="50dp" android:id="@+id/distancebateau"
+            android:textColor="@android:color/white"/>
 </android.support.constraint.ConstraintLayout>
