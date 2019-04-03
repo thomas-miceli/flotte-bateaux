@@ -61,7 +61,7 @@ class ListConteneurActivity : AppCompatActivity() {
                     val containerObj = parent!!.getItemAtPosition(position) as Container
 
                     // Ajout
-                    containership.containers.add(containerObj)
+                    containership.containersList.add(containerObj)
 
 
                     refcontainers.remove(containerObj)
@@ -104,7 +104,7 @@ class ListConteneurActivity : AppCompatActivity() {
                     val containerObj = parent!!.getItemAtPosition(position) as Container
 
                     // Suppression
-                    containership.containers.remove(containerObj)
+                    containership.containersList.remove(containerObj)
 
 
                     refcontainers.remove(containerObj)

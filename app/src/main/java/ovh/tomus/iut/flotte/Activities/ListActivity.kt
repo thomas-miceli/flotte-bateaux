@@ -123,7 +123,7 @@ class ListActivity : AppCompatActivity() {
 
                         page.putExtra("CONTAINERSHIP", item)
                         page.putExtra("HARBOURS", harboursArray)
-                        page.putExtra("CONTAINERSHIPTYPES", containershipsArray)
+                        page.putExtra("CONTAINERSHIPTYPES", containershipTypes)
                         startActivity(page)
                     }
                 }
@@ -133,7 +133,7 @@ class ListActivity : AppCompatActivity() {
 
     fun getContainerShipContainers() {
         for(boat in containershipsArray){
-            for(container in boat.containers){
+            for(container in boat.containersList){
                 for(item in containersArray){
                     if(item.id === container.id) containershipContainers.add(ContainerShipContainer(boat,item))
                 }

@@ -35,7 +35,7 @@ class BoatActivity : AppCompatActivity() {
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
         harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>
-        containerShipTypeList = intent.getSerializableExtra("HARBOURS") as ArrayList<ContainershipType>
+        containerShipTypeList = intent.getSerializableExtra("CONTAINERSHIPTYPES") as ArrayList<ContainershipType>
 
         loadData()
     }
