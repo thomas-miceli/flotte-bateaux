@@ -8,51 +8,67 @@
         tools:context=".Activities.SignUpActivity"
         android:background="#000000">
 
-    <EditText
+    <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/inputMail"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
-            android:backgroundTint="#FFFFFF"
-            android:hint="Email" android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toBottomOf="@+id/textView7"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/inputMdp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
-            android:backgroundTint="#FFFFFF"
-            android:hint="Mot de passe" android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/inputMail" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/inputPseudo"
-            android:hint="Pseudo"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textSize="18sp"
-            android:backgroundTint="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
-    />
+            android:layout_height="wrap_content" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="50dp" android:layout_marginEnd="50dp"
+            app:layout_constraintHorizontal_bias="1.0" android:layout_marginTop="80dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/submit" app:layout_constraintVertical_bias="0.0">
+
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/inputMail"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="18sp"
+                android:backgroundTint="#FFFFFF"
+                android:hint="Email" android:layout_marginTop="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toBottomOf="@+id/textView7"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/inputPseudo"
+                android:hint="Pseudo"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="18sp"
+                android:backgroundTint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@+id/inputMdp"
+                app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+                android:text="Inscription"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:id="@+id/textView7" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/inputMdp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textSize="18sp"
+                android:backgroundTint="#FFFFFF"
+                android:hint="Mot de passe" android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/inputMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
     <Button
             android:text="S'inscrire"
             android:textColor="#FFFFFF"
@@ -64,16 +80,6 @@
             android:onClick="submit" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             android:layout_marginBottom="50dp" app:layout_constraintBottom_toBottomOf="parent"/>
-    <TextView
-            android:text="Inscription"
-            android:textColor="#FFFFFF"
-            android:textSize="40sp"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:id="@+id/textView7" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="50dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="50dp"
-            android:layout_marginTop="80dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"/>
 
 
 </android.support.constraint.ConstraintLayout>
