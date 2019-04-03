@@ -80,9 +80,10 @@ class ListActivity : AppCompatActivity() {
                 for (item in task.result!!) {
                     val containertype = ContainershipType(
                         item.reference.path,
-                        item["length"].toString().toInt() as Int,
-                        item["height"].toString().toInt() as Int,
-                        item["width"].toString().toInt() as Int
+                        item["name"].toString(),
+                        item["length"].toString().toInt(),
+                        item["height"].toString().toInt(),
+                        item["width"].toString().toInt()
                     )
                     containershipTypes.add(containertype)
                 }
@@ -107,10 +108,7 @@ class ListActivity : AppCompatActivity() {
                         getContainersOfBoat(item["containers"] as ArrayList<DocumentReference>)
                     )
                     containershipsArray.add(containerShip)
-                    for (xD in containerShip.containers) println(containerShip.nomBateau + "---" + xD.id)
                 }
-
-
 
                 val adapter = ArrayAdapter<Containership>(this, R.layout.listview_item, containershipsArray)
                 listview.setAdapter(adapter)
@@ -124,6 +122,8 @@ class ListActivity : AppCompatActivity() {
                         val item = parent!!.getItemAtPosition(position) as Containership
 
                         page.putExtra("CONTAINERSHIP", item)
+                        page.putExtra("HARBOURS", harboursArray)
+                        page.putExtra("CONTAINERSHIPTYPES", containershipsArray)
                         startActivity(page)
                     }
                 }

@@ -12,12 +12,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
 import ovh.tomus.iut.flotte.Models.Containership
+import ovh.tomus.iut.flotte.Models.ContainershipType
+import ovh.tomus.iut.flotte.Models.Port
 
 import ovh.tomus.iut.flotte.R
 
 class BoatActivity : AppCompatActivity() {
 
     private lateinit var containership: Containership
+    private lateinit var harbourList: ArrayList<Port>
+    private lateinit var containerShipTypeList: ArrayList<ContainershipType>
+
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -29,6 +34,8 @@ class BoatActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
+        harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>
+        containerShipTypeList = intent.getSerializableExtra("HARBOURS") as ArrayList<ContainershipType>
 
         loadData()
     }
@@ -80,7 +87,9 @@ class BoatActivity : AppCompatActivity() {
     fun edit(view : View) {
         val page = Intent(this, BoatEditorActivity::class.java)
 
-        page.putExtra("DOCREF", containership.id)
+        page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("HARBOURS", harbourList)
+        page.putExtra("CONTAINERSHIPTYPES", containerShipTypeList)
 
         startActivityForResult(page, 1)
     }

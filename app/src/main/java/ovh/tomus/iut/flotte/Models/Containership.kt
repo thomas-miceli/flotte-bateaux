@@ -8,5 +8,8 @@ class Containership (
     var captainName: String, var latitude: Double, var longitude: Double, var port: Port?, var type: ContainershipType, var containers: ArrayList<Container>
 ) : Serializable{
 
+    override fun toString(): String {
+        return this.nomBateau
+    }
 }
 

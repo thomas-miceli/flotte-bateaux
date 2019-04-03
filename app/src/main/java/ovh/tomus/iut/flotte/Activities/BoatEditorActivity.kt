@@ -12,18 +12,18 @@ import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat_editor.*
 import ovh.tomus.iut.flotte.Models.Container
 import ovh.tomus.iut.flotte.Models.Containership
+import ovh.tomus.iut.flotte.Models.Port
 import ovh.tomus.iut.flotte.R
 
 class BoatEditorActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
-    private var harbours = db.collection("harbours")
     private var containershiptypes = db.collection("containership-type")
 
-    private var harbourList = mutableMapOf<String, String>()
     private var typeList = mutableMapOf<String, String>()
 
     private lateinit var containership: Containership
+    private lateinit var harbourList: ArrayList<Port>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,24 +32,16 @@ class BoatEditorActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
+        harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>
 
         getHarbours()
         getTypesContainerships()
     }
 
     fun getHarbours() {
-        harbours.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (harbour in task.result!!) {
-                    harbourList[harbour.data["name"].toString()] = harbour.id
-                }
-                val adapter = ArrayAdapter(
-                    this, R.layout.spinner_item, harbourList.keys.toTypedArray()
-                )
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                harbourspinner.adapter = adapter
-            }
-        }
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, harbourList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        harbourspinner.adapter = adapter
     }
 
     fun getTypesContainerships() {
@@ -108,7 +100,7 @@ class BoatEditorActivity : AppCompatActivity() {
             longitude = longitudeInput.toDouble()
         }
 
-        boatAttribute["port"] = harbours.document(harbourList.get(harbourspinner.selectedItem).toString())
+        //boatAttribute["port"] = harbours.document(harbourList.get(harbourspinner.selectedItem).toString())
         boatAttribute["boatType"] = containershiptypes.document(typeList.get(typespinner.selectedItem).toString())
 
         boatAttribute["localization"] = GeoPoint(latitude, longitude)
