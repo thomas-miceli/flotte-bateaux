@@ -1,6 +1,7 @@
 package ovh.tomus.iut.flotte.Activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -25,19 +26,32 @@ class ListActivity : AppCompatActivity() {
     var containershipTypes = ArrayList<ContainershipType>()
     var containershipContainers = ArrayList<ContainerShipContainer>()
 
+    var resume : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
         getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-
-        getHarbours()
-        //getContainers()
-        //getContainerShipTypes()
-        //getContainerShips()
-        //getContainerShipContainers()
     }
+
+    override fun onPause() {
+        super.onPause()
+        resume = true
+    }
+
+    public override fun onResume() {
+        super.onResume()
+        if (resume) {
+            recreate()
+            resume = false;
+        } else {
+            getHarbours()
+        }
+
+    }
+
 
     fun getHarbours(){
         db.collection("harbours").get().addOnCompleteListener { task ->
@@ -124,7 +138,7 @@ class ListActivity : AppCompatActivity() {
                         page.putExtra("CONTAINERSHIP", item)
                         page.putExtra("HARBOURS", harboursArray)
                         page.putExtra("CONTAINERSHIPTYPES", containershipTypes)
-                        startActivity(page)
+                        startActivityForResult(page, 1)
                     }
                 }
             }
