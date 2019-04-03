@@ -32,8 +32,8 @@ class BoatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boat)
 
-        getSupportActionBar()?.setDisplayShowHomeEnabled(true)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
         harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>

@@ -3,6 +3,7 @@ package ovh.tomus.iut.flotte.Activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -30,6 +31,11 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boats_map)
+
+
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -37,6 +43,18 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
+
+        title = "Position de " + containership.boatName
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.getItemId()) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**
@@ -50,18 +68,16 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val shipRef = db.document(containership.id).get().addOnSuccessListener { task ->
-            val geoPoint = task["localization"] as GeoPoint
-            println(geoPoint.latitude)
-            val marker = LatLng(geoPoint.latitude,geoPoint.longitude)
-            map.addMarker(MarkerOptions().position(marker).title("Bateau"))
-            println("addpassed")
-            map.moveCamera(CameraUpdateFactory.newLatLng(marker))
-            println("Camerapassed")
-            map.getUiSettings().setZoomControlsEnabled(true)
-            map.setOnMarkerClickListener(this)
 
-        }
+        val geoPoint = containership.getLocalization()
+        val marker = LatLng(geoPoint.latitude,geoPoint.longitude)
+
+        map.addMarker(MarkerOptions().position(marker).title(containership.boatName))
+        map.moveCamera(CameraUpdateFactory.newLatLng(marker))
+        map.uiSettings.isZoomControlsEnabled = true
+        map.setOnMarkerClickListener(this)
+
+
 
     }
 
