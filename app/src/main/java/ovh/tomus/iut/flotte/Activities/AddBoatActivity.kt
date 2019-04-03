@@ -10,6 +10,7 @@ import ovh.tomus.iut.flotte.R
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.firebase.firestore.DocumentReference
+import ovh.tomus.iut.flotte.Models.Containership
 
 
 class AddBoatActivity : AppCompatActivity() {
