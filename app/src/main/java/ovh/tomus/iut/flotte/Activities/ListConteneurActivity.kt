@@ -16,13 +16,16 @@ import kotlinx.android.synthetic.main.activity_listconteneurs.*
 import ovh.tomus.iut.flotte.Models.Container
 import ovh.tomus.iut.flotte.Models.Containership
 import ovh.tomus.iut.flotte.R
+import android.content.Intent
+import android.app.Activity
+
 
 class ListConteneurActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
-    private val containers = db.collection("containers")
 
     private lateinit var containership: Containership
+    private lateinit var containersList: ArrayList<Container>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,7 @@ class ListConteneurActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
+        containersList = intent.getSerializableExtra("CONTAINERS") as ArrayList<Container>
 
         when (intent.getStringExtra("MODE")) {
             "add" -> addContainers()
@@ -41,86 +45,57 @@ class ListConteneurActivity : AppCompatActivity() {
 
     fun addContainers() {
         title = "Conteneurs disponibles"
-        containers.get().addOnCompleteListener { e ->
-            if (e.isSuccessful) {
-                val refcontainers = arrayListOf<Container>()
-                for (container in e.result!!) {
-                    if (container.data["containerShip"] == null) {
-                        val containerObj = Container(container.reference.path, container.data["length"] as Int, container.data["height"] as Int, container.data["width"] as Int)
 
-                        refcontainers.add(containerObj)
-                    }
-                }
+        var adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containersList.toTypedArray())
+        listview_container.adapter = adapter
+        list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+        listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val containerObj = parent!!.getItemAtPosition(position) as Container
 
-                var adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
-                listview_container.adapter = adapter
+            containership.containersList.add(containerObj)
+            containersList.remove(containerObj)
 
-                list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+            adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containersList.toTypedArray())
+            listview_container.adapter = adapter
+            list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
 
-                listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-                    val containerObj = parent!!.getItemAtPosition(position) as Container
-
-                    // Ajout
-                    containership.containersList.add(containerObj)
-
-
-                    refcontainers.remove(containerObj)
-
-                    adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
-                    listview_container.adapter = adapter
-
-                    list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
-
-
-                    db.document(containership.id).set(containership)
-                }
-
-
-            }
+            db.document(containership.id).set(containership)
         }
+
+
+
+
     }
 
     fun listContainers() {
         title = "Conteneurs du bateau"
-        containers.get().addOnCompleteListener { e ->
-            if (e.isSuccessful) {
-                val refcontainers = arrayListOf<Container>()
-                for (container in e.result!!) {
-                    if (container.data["containerShip"] != null) {
-                        if ((container.data["containerShip"] as DocumentReference).path == containership.id) {
-                            val containerObj = Container(container.reference.path, container.data["length"] as Int, container.data["height"] as Int, container.data["width"] as Int)
 
-                            refcontainers.add(containerObj)
-                        }
-                    }
-                }
+        var adapter = ArrayAdapter<Container>(this, R.layout.listview_item_delete, containership.containersList.toTypedArray())
+        listview_container.adapter = adapter
+        list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+        listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val containerObj = parent!!.getItemAtPosition(position) as Container
 
-                var adapter = ArrayAdapter<Container>(this, R.layout.listview_item_delete, refcontainers.toTypedArray())
-                listview_container.adapter = adapter
+            containership.containersList.remove(containerObj)
+            containersList.add(containerObj)
 
-                list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+            adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containership.containersList.toTypedArray())
+            listview_container.adapter = adapter
+            list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
 
-                listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-                    val containerObj = parent!!.getItemAtPosition(position) as Container
-
-                    // Suppression
-                    containership.containersList.remove(containerObj)
-
-
-                    refcontainers.remove(containerObj)
-
-                    adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, refcontainers.toTypedArray())
-                    listview_container.adapter = adapter
-
-                    list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
-
-
-                    db.document(containership.id).set(containership)
-                }
-
-
-            }
+            db.document(containership.id).set(containership)
         }
+    }
+
+    override fun onBackPressed() {
+        val i = Intent()
+        println("DANS LE BATEAU :" + containership.containersList)
+        println("DISPOS : " + containersList)
+
+        i.putExtra("CONTAINERSHIP", containership)
+        i.putExtra("CONTAINERS", containersList)
+        setResult(Activity.RESULT_OK, i)
+        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

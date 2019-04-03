@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
+import ovh.tomus.iut.flotte.Models.Container
 import ovh.tomus.iut.flotte.Models.Containership
 import ovh.tomus.iut.flotte.Models.ContainershipType
 import ovh.tomus.iut.flotte.Models.Port
@@ -22,8 +23,10 @@ class BoatActivity : AppCompatActivity() {
     private lateinit var containership: Containership
     private lateinit var harbourList: ArrayList<Port>
     private lateinit var containerShipTypeList: ArrayList<ContainershipType>
+    private lateinit var containersList: ArrayList<Container>
 
     private val db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class BoatActivity : AppCompatActivity() {
         containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
         harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>
         containerShipTypeList = intent.getSerializableExtra("CONTAINERSHIPTYPES") as ArrayList<ContainershipType>
+        containersList = intent.getSerializableExtra("CONTAINERS") as ArrayList<Container>
 
         loadData()
     }
@@ -43,6 +47,7 @@ class BoatActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
+            containersList = data.getSerializableExtra("CONTAINERS") as ArrayList<Container>
             loadData()
         }
     }
@@ -91,18 +96,20 @@ class BoatActivity : AppCompatActivity() {
         val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "list")
 
-        startActivity(page)
+        startActivityForResult(page,1)
     }
 
     fun addContainer(view: View) {
         val page = Intent(this, ListConteneurActivity::class.java)
 
         page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "add")
 
-        startActivity(page)
+        startActivityForResult(page, 1)
     }
 
 }

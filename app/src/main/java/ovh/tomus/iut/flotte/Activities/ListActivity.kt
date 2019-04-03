@@ -16,6 +16,8 @@ import android.view.View
 import android.widget.Toast
 import ovh.tomus.iut.flotte.Models.*
 
+
+
 class ListActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
@@ -41,11 +43,11 @@ class ListActivity : AppCompatActivity() {
         resume = true
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         if (resume) {
             recreate()
-            resume = false;
+            resume = false
         } else {
             getHarbours()
         }
@@ -138,6 +140,7 @@ class ListActivity : AppCompatActivity() {
                         page.putExtra("CONTAINERSHIP", item)
                         page.putExtra("HARBOURS", harboursArray)
                         page.putExtra("CONTAINERSHIPTYPES", containershipTypes)
+                        page.putExtra("CONTAINERS", containersArray)
                         startActivityForResult(page, 1)
                     }
                 }
@@ -175,9 +178,14 @@ class ListActivity : AppCompatActivity() {
     fun getContainersOfBoat(containersRef: ArrayList<DocumentReference>): ArrayList<Container> {
         val containersOfBoat : ArrayList<Container> = ArrayList()
         for(containerRef in containersRef){
+            val toRemove = ArrayList<Container>()
             for(item in containersArray){
-                if(item.id == containerRef.path) containersOfBoat.add(item)
+                if(item.id == containerRef.path) {
+                    containersOfBoat.add(item)
+                    toRemove.add(item)
+                }
             }
+            containersArray.removeAll(toRemove)
         }
         return containersOfBoat
     }
