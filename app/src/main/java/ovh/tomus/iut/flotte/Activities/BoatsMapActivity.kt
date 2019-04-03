@@ -22,6 +22,8 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
 
     val db = FirebaseFirestore.getInstance()
     val boatList = mutableMapOf<String,String>()
+
+    private lateinit var containership: Containership
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -34,6 +36,7 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
     }
 
     /**
@@ -47,7 +50,7 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val shipRef = db.document(intent.getStringExtra("DOCREF")).get().addOnSuccessListener { task ->
+        val shipRef = db.document(containership.id).get().addOnSuccessListener { task ->
             val geoPoint = task["localization"] as GeoPoint
             println(geoPoint.latitude)
             val marker = LatLng(geoPoint.latitude,geoPoint.longitude)

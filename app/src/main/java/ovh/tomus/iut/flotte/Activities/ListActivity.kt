@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.view.View
+import android.widget.Toast
 import ovh.tomus.iut.flotte.Models.*
 
 class ListActivity : AppCompatActivity() {
@@ -32,10 +33,10 @@ class ListActivity : AppCompatActivity() {
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         getHarbours()
-        getContainers()
-        getContainerShipTypes()
-        getContainerShips()
-        getContainerShipContainers()
+        //getContainers()
+        //getContainerShipTypes()
+        //getContainerShips()
+        //getContainerShipContainers()
     }
 
     fun getHarbours(){
@@ -51,6 +52,7 @@ class ListActivity : AppCompatActivity() {
                     )
                     harboursArray.add(port)
                 }
+                getContainers()
             }
         }
     }
@@ -61,12 +63,13 @@ class ListActivity : AppCompatActivity() {
                 for (item in task.result!!) {
                     val container = Container(
                         item.reference.path,
-                        item["length"] as Int,
-                        item["height"] as Int,
-                        item["width"] as Int
+                        item["length"].toString().toInt() as Int,
+                        item["height"].toString().toInt() as Int,
+                        item["width"].toString().toInt() as Int
                     )
                     containersArray.add(container)
                 }
+                getContainerShipTypes()
             }
         }
     }
@@ -77,12 +80,13 @@ class ListActivity : AppCompatActivity() {
                 for (item in task.result!!) {
                     val containertype = ContainershipType(
                         item.reference.path,
-                        item["length"] as Int,
-                        item["height"] as Int,
-                        item["width"] as Int
+                        item["length"].toString().toInt() as Int,
+                        item["height"].toString().toInt() as Int,
+                        item["width"].toString().toInt() as Int
                     )
                     containershipTypes.add(containertype)
                 }
+                getContainerShips()
             }
         }
     }
@@ -94,21 +98,21 @@ class ListActivity : AppCompatActivity() {
                     val geopoint : GeoPoint = item["localization"] as GeoPoint
                     val containerShip = Containership( // var containers: Collection<Container>
                         item.reference.path,
-                        item["name"].toString(),
+                        item["boatName"].toString(),
                         item["captainName"].toString(),
                         geopoint.latitude,
                         geopoint.longitude,
-                        getContainerShipHarbour(item.reference.path),
-                        getContainerShipType(item.reference.path)!!,
-                        getContainersOfBoat(item["containers"] as ArrayList<String>)
+                        getContainerShipHarbour((item["port"] as DocumentReference).path),
+                        getContainerShipType((item["boatType"] as DocumentReference).path),
+                        getContainersOfBoat(item["containers"] as ArrayList<DocumentReference>)
                     )
                     containershipsArray.add(containerShip)
+                    for (xD in containerShip.containers) println(containerShip.nomBateau + "---" + xD.id)
                 }
 
-                var boatnames = ArrayList<String>()
-                for(containerShip in containershipsArray) boatnames.add(containerShip.nomBateau)
 
-                val adapter = ArrayAdapter<String>(this, R.layout.listview_item, boatnames)
+
+                val adapter = ArrayAdapter<Containership>(this, R.layout.listview_item, containershipsArray)
                 listview.setAdapter(adapter)
 
                 val page = Intent(this, BoatActivity::class.java)
@@ -117,8 +121,9 @@ class ListActivity : AppCompatActivity() {
 
                 listview.onItemClickListener = object : OnItemClickListener {
                     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val item = parent!!.getItemAtPosition(position)
-                        page.putExtra("CONTAINERSHIP", containershipsArray.indexOf(item))
+                        val item = parent!!.getItemAtPosition(position) as Containership
+
+                        page.putExtra("CONTAINERSHIP", item)
                         startActivity(page)
                     }
                 }
@@ -137,26 +142,27 @@ class ListActivity : AppCompatActivity() {
     }
 
     fun getContainerShipHarbour(reference: String): Port {
-        var port: Port? = null
+        lateinit var port: Port
         for(item in harboursArray){
-            if(item.id === reference) port = item
+            val path = item.id
+            if(path == reference) port = item
         }
-        return port!!
+        return port
     }
 
     fun getContainerShipType(reference: String): ContainershipType {
-        var type: ContainershipType? = null
+        lateinit var type: ContainershipType
         for(item in containershipTypes){
-            if(item.id === reference) type = item
+            if(item.id == reference) type = item
         }
-        return type!!
+        return type
     }
 
-    fun getContainersOfBoat(containersRef: ArrayList<String>): ArrayList<Container> {
-        var containersOfBoat = ArrayList<Container>()
+    fun getContainersOfBoat(containersRef: ArrayList<DocumentReference>): ArrayList<Container> {
+        val containersOfBoat : ArrayList<Container> = ArrayList()
         for(containerRef in containersRef){
             for(item in containersArray){
-                if(item.id === containerRef) containersOfBoat.add(item)
+                if(item.id == containerRef.path) containersOfBoat.add(item)
             }
         }
         return containersOfBoat

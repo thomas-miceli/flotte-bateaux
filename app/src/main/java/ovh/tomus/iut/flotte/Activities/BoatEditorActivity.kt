@@ -23,7 +23,7 @@ class BoatEditorActivity : AppCompatActivity() {
     private var harbourList = mutableMapOf<String, String>()
     private var typeList = mutableMapOf<String, String>()
 
-    private lateinit var docref : String
+    private lateinit var containership: Containership
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class BoatEditorActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        docref = intent.getStringExtra("DOCREF")
+        containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
 
         getHarbours()
         getTypesContainerships()
@@ -80,7 +80,7 @@ class BoatEditorActivity : AppCompatActivity() {
 
     fun updateData (view: View){
         val boatAttribute = mutableMapOf<String,Any>()
-        val containerShipRef = db.document(docref)
+        val containerShipRef = db.document(containership.id)
 
         val boatName = edit_boatname.text.toString()
         val captainName = edit_captainname.text.toString()
