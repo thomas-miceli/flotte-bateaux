@@ -12,6 +12,9 @@ import ovh.tomus.iut.flotte.Models.Containership
 import ovh.tomus.iut.flotte.Models.ContainershipType
 import ovh.tomus.iut.flotte.Models.Port
 import ovh.tomus.iut.flotte.R
+import android.content.Intent
+
+
 
 class BoatEditorActivity : AppCompatActivity() {
 
@@ -66,7 +69,6 @@ class BoatEditorActivity : AppCompatActivity() {
         val boatName = edit_boatname.text.toString()
         val captainName = edit_captainname.text.toString()
 
-        // Si la nouvelle latitude/longitude n'est pas renseignée alors on remet les anciennes
         val latitudeInput = latitudeInput.text.toString()
         val longitudeInput = longitudeInput.text.toString()
 
@@ -83,7 +85,7 @@ class BoatEditorActivity : AppCompatActivity() {
         }
 
         if (longitudeInput.isNotBlank() && longitudeInput.toDouble() <= 180 && longitudeInput.toDouble() >= -180) {
-            containership.latitude = longitudeInput.toDouble()
+            containership.longitude = longitudeInput.toDouble()
         }
 
         containership.port = harbourspinner.selectedItem as Port
@@ -92,7 +94,11 @@ class BoatEditorActivity : AppCompatActivity() {
 
         containerShipRef.set(containership)
 
-        setResult(Activity.RESULT_OK)
+
+        val page = Intent()
+        page.putExtra("CONTAINERSHIP", containership)
+
+        setResult(Activity.RESULT_OK, page)
         finish()
 
     }

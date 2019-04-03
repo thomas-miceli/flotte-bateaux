@@ -23,7 +23,6 @@ class BoatActivity : AppCompatActivity() {
     private lateinit var harbourList: ArrayList<Port>
     private lateinit var containerShipTypeList: ArrayList<ContainershipType>
 
-
     private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +42,7 @@ class BoatActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
             loadData()
         }
     }
@@ -59,29 +59,14 @@ class BoatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun loadData() {
+        title = containership.boatName
+        val geopoint : GeoPoint = containership.getLocalization()
 
-        // Load bateau
-        db.document(containership.id).get().addOnSuccessListener { containerShip ->
-            title = containerShip["boatName"].toString()
-            val geopoint : GeoPoint = containerShip["localization"] as GeoPoint
-
-            boatName.text = containerShip["boatName"].toString()
-            captainName.text = containerShip["captainName"].toString()
-            coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
-            val portref = containerShip["port"] as DocumentReference
-            val typeref = containerShip["boatType"] as DocumentReference
-
-            // Load port
-            db.document(portref.path).get().addOnSuccessListener { port ->
-                portText.text = port["name"].toString()
-            }
-
-            db.document(typeref.path).get().addOnSuccessListener { type ->
-                typeText.text = type["name"].toString()
-            }
-        }
-
-
+        boatName.text = containership.boatName
+        captainName.text = containership.captainName
+        coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
+        portText.text = containership.port.name
+        typeText.text = containership.boatType.name
     }
 
     fun edit(view : View) {
