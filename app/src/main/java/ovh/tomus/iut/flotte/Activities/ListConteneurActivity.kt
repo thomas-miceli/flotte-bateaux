@@ -2,22 +2,18 @@ package ovh.tomus.iut.flotte.Activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_listconteneurs.*
 import ovh.tomus.iut.flotte.Models.Container
 import ovh.tomus.iut.flotte.Models.Containership
 import ovh.tomus.iut.flotte.R
 import android.content.Intent
 import android.app.Activity
+import android.widget.Toast
 
 
 class ListConteneurActivity : AppCompatActivity() {
@@ -26,6 +22,11 @@ class ListConteneurActivity : AppCompatActivity() {
 
     private lateinit var containership: Containership
     private lateinit var containersList: ArrayList<Container>
+
+    // Taille que prend la somme des conteneurs sur le bateau
+    private var usedLength = 0
+    private var usedHeight = 0
+    private var usedWidth = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,16 @@ class ListConteneurActivity : AppCompatActivity() {
             "add" -> addContainers()
             "list" -> listContainers()
         }
+
+        // Calcul de la taille pour les conteneurs déjà présents
+        for (container in containership.containersList) {
+            usedLength += container.length
+            usedHeight += container.height
+            usedWidth += container.width
+        }
+        title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
+
+
     }
 
     fun addContainers() {
@@ -50,16 +61,28 @@ class ListConteneurActivity : AppCompatActivity() {
         listview_container.adapter = adapter
         list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
         listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val containerObj = parent!!.getItemAtPosition(position) as Container
+            val container = parent!!.getItemAtPosition(position) as Container
 
-            containership.containersList.add(containerObj)
-            containersList.remove(containerObj)
+            if (containership.boatType.lenght >= usedLength + container.length &&
+                containership.boatType.height >= usedHeight + container.height &&
+                containership.boatType.width >= usedWidth + container.width) {
 
-            adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containersList.toTypedArray())
-            listview_container.adapter = adapter
-            list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+                usedLength += container.length
+                usedHeight += container.height
+                usedWidth += container.width
+                title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
 
-            db.document(containership.id).set(containership)
+                containership.containersList.add(container)
+                containersList.remove(container)
+
+                adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containersList.toTypedArray())
+                listview_container.adapter = adapter
+                list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
+
+                db.document(containership.id).set(containership)
+            } else {
+                Toast.makeText(this, "Le conteneur ne rentre pas sur le bateau", Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -74,10 +97,15 @@ class ListConteneurActivity : AppCompatActivity() {
         listview_container.adapter = adapter
         list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
         listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val containerObj = parent!!.getItemAtPosition(position) as Container
+            val container = parent!!.getItemAtPosition(position) as Container
 
-            containership.containersList.remove(containerObj)
-            containersList.add(containerObj)
+            containership.containersList.remove(container)
+            containersList.add(container)
+
+            usedLength -= container.length
+            usedHeight -= container.height
+            usedWidth -= container.width
+            title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
 
             adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containership.containersList.toTypedArray())
             listview_container.adapter = adapter

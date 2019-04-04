@@ -47,7 +47,11 @@ class BoatActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
-            containersList = data.getSerializableExtra("CONTAINERS") as ArrayList<Container>
+            loadData()
+        }
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
+            containersList = data?.getSerializableExtra("CONTAINERS") as ArrayList<Container>
             loadData()
         }
     }
@@ -99,7 +103,7 @@ class BoatActivity : AppCompatActivity() {
         page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "list")
 
-        startActivityForResult(page,1)
+        startActivityForResult(page,2)
     }
 
     fun addContainer(view: View) {
@@ -109,7 +113,7 @@ class BoatActivity : AppCompatActivity() {
         page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "add")
 
-        startActivityForResult(page, 1)
+        startActivityForResult(page, 2)
     }
 
 }
