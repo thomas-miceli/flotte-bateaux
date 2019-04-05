@@ -1,7 +1,5 @@
 package ovh.tomus.iut.flotte.Activities
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.view.View
-import android.widget.Toast
 import ovh.tomus.iut.flotte.Models.*
 
 
@@ -51,7 +48,6 @@ class ListActivity : AppCompatActivity() {
         } else {
             getHarbours()
         }
-
     }
 
 

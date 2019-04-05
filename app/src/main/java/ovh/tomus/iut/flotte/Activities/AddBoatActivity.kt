@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
-import kotlinx.android.synthetic.main.activity_addboat.*
 import ovh.tomus.iut.flotte.R
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.firebase.firestore.DocumentReference
-import ovh.tomus.iut.flotte.Models.Containership
+import kotlinx.android.synthetic.main.activity_addboat.*
 
 
 class AddBoatActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class AddBoatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addboat2)
+        setContentView(R.layout.activity_addboat)
 
         getHarbours()
     }
