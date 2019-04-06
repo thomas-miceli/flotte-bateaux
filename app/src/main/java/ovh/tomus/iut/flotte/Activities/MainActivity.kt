@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.activity_main.*
+import ovh.tomus.iut.flotte.Models.User
 import ovh.tomus.iut.flotte.R
 
 class MainActivity : AppCompatActivity() {
@@ -24,22 +25,23 @@ class MainActivity : AppCompatActivity() {
         addContentView(crashButton, ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT))
+
+        val user = intent.getSerializableExtra("USER") as User
+
+        textView.text = "Bienvenue " + user.pseudo
     }
 
     fun click(view: View) {
-        lateinit var game : Intent
+        lateinit var intent : Intent
         when (view.getId()) {
-            R.id.btnOne -> {
-                game = Intent(this, LogInActivity::class.java)
+            R.id.btnList -> {
+                intent = Intent(this, ListActivity::class.java)
             }
-            R.id.btnTwo -> {
-                game = Intent(this, ListActivity::class.java)
-            }
-            R.id.btnThree -> {
-                game = Intent(this, AddBoatActivity::class.java)
+            R.id.btnAdd -> {
+                intent = Intent(this, AddBoatActivity::class.java)
             }
         }
-        startActivity(game)
+        startActivity(intent)
 
 
     }

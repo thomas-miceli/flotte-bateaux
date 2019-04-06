@@ -34,8 +34,8 @@ class SignUpGoogleActivity : AppCompatActivity() {
         data["pseudo"] = pseudo
         users.add(data)
 
-        val page = Intent(this, FirstActivity::class.java)
-        val user = User(uid, pseudo, "Aoker", "Ahokaient", mail)
+        val page = Intent(this, MainActivity::class.java)
+        val user = User(uid, pseudo, mail)
 
         page.putExtra("USER", user)
         Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_LONG).show()

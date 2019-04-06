@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_addboat.*
+import ovh.tomus.iut.flotte.Models.Containership
+import ovh.tomus.iut.flotte.Models.ContainershipType
+import ovh.tomus.iut.flotte.Models.Port
 
 
 class AddBoatActivity : AppCompatActivity() {
@@ -17,26 +20,41 @@ class AddBoatActivity : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
     var boats = db.collection("containerShips")
     var harbours = db.collection("harbours")
-    var harbourList = mutableMapOf<String, String>()
+    var types = db.collection("containership-type")
+    var harbourList = arrayListOf<Port>()
+    var typeList = arrayListOf<ContainershipType>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addboat)
 
         getHarbours()
+        getTypes()
     }
 
     fun getHarbours() {
         harbours.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (harbour in task.result!!) {
-                    harbourList[harbour.data["name"].toString()] = harbour.id
+                    val geopoint = harbour.data["localization"] as GeoPoint
+                    harbourList.add(Port(harbour.reference.path, harbour.data["name"].toString(), geopoint.latitude, geopoint.longitude))
                 }
-                val adapter = ArrayAdapter(
-                    this, R.layout.spinner_item, harbourList.keys.toTypedArray()
-                )
+                val adapter = ArrayAdapter(this, R.layout.spinner_item, harbourList.toTypedArray())
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 harbourspinner.adapter = adapter
+            }
+        }
+    }
+
+    fun getTypes() {
+        types.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (type in task.result!!) {
+                    typeList.add(ContainershipType(type.reference.path, type.data["name"].toString(), type.data["length"].toString().toInt(), type.data["height"].toString().toInt(), type.data["width"].toString().toInt()))
+                }
+                val adapter = ArrayAdapter(this, R.layout.spinner_item, typeList.toTypedArray())
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                typespinner.adapter = adapter
             }
         }
     }
@@ -47,20 +65,12 @@ class AddBoatActivity : AppCompatActivity() {
         val captainName: String = captainname.text.toString()
         val latitude : String = latitudeInput.text.toString()
         val longitude : String = longitudeInput.text.toString()
-        val harbour: DocumentReference = harbours.document(harbourList.get(harbourspinner.selectedItem).toString())
 
         if (boatName.isNotBlank() && captainName.isNotBlank() && latitudeInput.text.isNotBlank() && longitudeInput.text.isNotBlank()) {
 
             if (latitude.toDouble() >= -90 && latitude.toDouble() <= 90 && longitude.toDouble() >= -180 && longitude.toDouble() <= 180) {
-                val localization = GeoPoint(latitude.toDouble(), longitude.toDouble())
-
-                val data = HashMap<String, Any>()
-
-                data["boatName"] = boatName
-                data["captainName"] = captainName
-                data["localization"] = localization
-                data["port"] = harbour
-                boats.add(data)
+                val containerShip = Containership("", boatName, captainName, latitude.toDouble(), longitude.toDouble(), harbourspinner.selectedItem as Port, typespinner.selectedItem as ContainershipType, arrayListOf())
+                boats.add(containerShip)
 
                 Toast.makeText(this, "Bateau ajouté avec succès", Toast.LENGTH_SHORT).show()
                 finish()

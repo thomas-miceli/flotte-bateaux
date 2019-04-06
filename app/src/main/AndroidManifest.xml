@@ -19,16 +19,13 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.LogInActivity"
+                  android:label="Flotte">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity
-                android:name=".Activities.FirstActivity"
-                android:label="Act 1">
         </activity>
         <activity
                 android:name=".Activities.ListActivity"
@@ -56,8 +53,8 @@
                 android:label="Inscription">
         </activity>
         <activity
-                android:name=".Activities.LogInActivity"
-                android:label="Connexion">
+                android:name=".Activities.MainActivity"
+                android:label="Flotte">
         </activity>
         <activity
                 android:name=".Activities.SignUpGoogleActivity"
