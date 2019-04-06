@@ -11,23 +11,34 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
+import ovh.tomus.iut.flotte.Models.Container
+import ovh.tomus.iut.flotte.Models.Containership
+import ovh.tomus.iut.flotte.Models.ContainershipType
+import ovh.tomus.iut.flotte.Models.Port
 
 import ovh.tomus.iut.flotte.R
 
 class BoatActivity : AppCompatActivity() {
 
-    private lateinit var docref : String
+    private lateinit var containership: Containership
+    private lateinit var harbourList: ArrayList<Port>
+    private lateinit var containerShipTypeList: ArrayList<ContainershipType>
+    private lateinit var containersList: ArrayList<Container>
 
     private val db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boat)
 
-        getSupportActionBar()?.setDisplayShowHomeEnabled(true)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        docref = intent.getStringExtra("DOCREF")
+        containership = intent.getSerializableExtra("CONTAINERSHIP") as Containership
+        harbourList = intent.getSerializableExtra("HARBOURS") as ArrayList<Port>
+        containerShipTypeList = intent.getSerializableExtra("CONTAINERSHIPTYPES") as ArrayList<ContainershipType>
+        containersList = intent.getSerializableExtra("CONTAINERS") as ArrayList<Container>
 
         loadData()
     }
@@ -35,6 +46,12 @@ class BoatActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
+            loadData()
+        }
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            containership = data?.getSerializableExtra("CONTAINERSHIP") as Containership
+            containersList = data?.getSerializableExtra("CONTAINERS") as ArrayList<Container>
             loadData()
         }
     }
@@ -51,35 +68,22 @@ class BoatActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun loadData() {
+        title = containership.boatName
+        val geopoint : GeoPoint = containership.getLocalization()
 
-        // Load bateau
-        db.document(docref).get().addOnSuccessListener { containerShip ->
-            title = containerShip["boatName"].toString()
-            val geopoint : GeoPoint = containerShip["localization"] as GeoPoint
-
-            boatName.text = containerShip["boatName"].toString()
-            captainName.text = containerShip["captainName"].toString()
-            coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
-            val portref = containerShip["port"] as DocumentReference
-            val typeref = containerShip["boatType"] as DocumentReference
-
-            // Load port
-            db.document(portref.path).get().addOnSuccessListener { port ->
-                portText.text = port["name"].toString()
-            }
-
-            db.document(typeref.path).get().addOnSuccessListener { type ->
-                typeText.text = type["name"].toString()
-            }
-        }
-
-
+        boatName.text = containership.boatName
+        captainName.text = containership.captainName
+        coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
+        portText.text = containership.port.name
+        typeText.text = containership.boatType.name
     }
 
     fun edit(view : View) {
         val page = Intent(this, BoatEditorActivity::class.java)
 
-        page.putExtra("DOCREF", docref)
+        page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("HARBOURS", harbourList)
+        page.putExtra("CONTAINERSHIPTYPES", containerShipTypeList)
 
         startActivityForResult(page, 1)
     }
@@ -87,7 +91,7 @@ class BoatActivity : AppCompatActivity() {
     fun map(view : View) {
         val page = Intent(this, BoatsMapActivity::class.java)
 
-        page.putExtra("DOCREF", docref)
+        page.putExtra("CONTAINERSHIP", containership)
 
         startActivity(page)
     }
@@ -95,19 +99,21 @@ class BoatActivity : AppCompatActivity() {
     fun listContainer(view: View) {
         val page = Intent(this, ListConteneurActivity::class.java)
 
-        page.putExtra("DOCREF", docref)
+        page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "list")
 
-        startActivity(page)
+        startActivityForResult(page,2)
     }
 
     fun addContainer(view: View) {
         val page = Intent(this, ListConteneurActivity::class.java)
 
-        page.putExtra("DOCREF", docref)
+        page.putExtra("CONTAINERSHIP", containership)
+        page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "add")
 
-        startActivity(page)
+        startActivityForResult(page, 2)
     }
 
 }
