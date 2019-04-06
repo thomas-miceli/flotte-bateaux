@@ -3,6 +3,7 @@ package ovh.tomus.iut.flotte.Activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -17,6 +18,9 @@ import ovh.tomus.iut.flotte.Models.ContainershipType
 import ovh.tomus.iut.flotte.Models.Port
 
 import ovh.tomus.iut.flotte.R
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
 class BoatActivity : AppCompatActivity() {
 
@@ -70,12 +74,22 @@ class BoatActivity : AppCompatActivity() {
     fun loadData() {
         title = containership.boatName
         val geopoint : GeoPoint = containership.getLocalization()
+        val geopointport = GeoPoint(containership.port.latitude, containership.port.longitude)
 
         boatName.text = containership.boatName
         captainName.text = containership.captainName
         coords.text = "[" + geopoint.latitude.toString() + "° N, " + geopoint.longitude.toString() + "° E]"
         portText.text = containership.port.name
         typeText.text = containership.boatType.name
+
+        val locationboat = Location("locationboat")
+        val locationport = Location("locationport")
+        locationboat.latitude = geopoint.latitude
+        locationboat.longitude = geopoint.longitude
+        locationport.latitude = geopointport.latitude
+        locationport.longitude = geopointport.longitude
+        val distancebetween = locationboat.distanceTo(locationport) / 1000
+        distancebateau.text = distancebetween.toString() + "m"
     }
 
     fun edit(view : View) {
