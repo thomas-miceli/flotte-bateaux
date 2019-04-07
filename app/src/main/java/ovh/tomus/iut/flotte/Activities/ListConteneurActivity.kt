@@ -1,5 +1,6 @@
 package ovh.tomus.iut.flotte.Activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -49,9 +50,15 @@ class ListConteneurActivity : AppCompatActivity() {
             usedHeight += container.height
             usedWidth += container.width
         }
-        title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
 
+        setCapacityLabels()
+    }
 
+    @SuppressLint("SetTextI18n")
+    fun setCapacityLabels(){
+        length.text = usedLength.toString() + "/" + containership.boatType.lenght.toString()
+        height.text = usedHeight.toString() + "/" + containership.boatType.height.toString()
+        width.text = usedWidth.toString() + "/" + containership.boatType.width.toString()
     }
 
     fun addContainers() {
@@ -70,7 +77,8 @@ class ListConteneurActivity : AppCompatActivity() {
                 usedLength += container.length
                 usedHeight += container.height
                 usedWidth += container.width
-                title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
+
+                setCapacityLabels()
 
                 containership.containersList.add(container)
                 containersList.remove(container)
@@ -84,10 +92,6 @@ class ListConteneurActivity : AppCompatActivity() {
                 Toast.makeText(this, "Le conteneur ne rentre pas sur le bateau", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
-
     }
 
     fun listContainers() {
@@ -105,7 +109,8 @@ class ListConteneurActivity : AppCompatActivity() {
             usedLength -= container.length
             usedHeight -= container.height
             usedWidth -= container.width
-            title = "L:$usedLength/${containership.boatType.lenght}; H:$usedHeight/${containership.boatType.height}; W:$usedWidth/${containership.boatType.width}"
+
+            setCapacityLabels()
 
             adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containership.containersList.toTypedArray())
             listview_container.adapter = adapter
@@ -127,7 +132,7 @@ class ListConteneurActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
+        when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 return true

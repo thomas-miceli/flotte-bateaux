@@ -131,7 +131,7 @@
                 android:textSize="20sp"
                 android:text="bateau"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="27dp"
                 android:id="@+id/boatName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView" android:layout_marginStart="10dp"

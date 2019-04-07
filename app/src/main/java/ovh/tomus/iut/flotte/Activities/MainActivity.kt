@@ -16,19 +16,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val crashButton = Button(this)
-        crashButton.text = "Crash!"
-        crashButton.setOnClickListener {
+        crash.setOnClickListener {
             Crashlytics.getInstance().crash() // Force a crash
         }
 
-        addContentView(crashButton, ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT))
-
         val user = intent.getSerializableExtra("USER") as User
 
-        textView.text = "Bienvenue " + user.pseudo
+        textView.text = user.pseudo
     }
 
     fun click(view: View) {
