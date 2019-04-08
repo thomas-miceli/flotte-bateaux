@@ -55,7 +55,7 @@ class ListConteneurActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun setCapacityLabels(){
+    fun setCapacityLabels() {
         length.text = usedLength.toString() + "/" + containership.boatType.lenght.toString()
         height.text = usedHeight.toString() + "/" + containership.boatType.height.toString()
         width.text = usedWidth.toString() + "/" + containership.boatType.width.toString()
@@ -72,7 +72,8 @@ class ListConteneurActivity : AppCompatActivity() {
 
             if (containership.boatType.lenght >= usedLength + container.length &&
                 containership.boatType.height >= usedHeight + container.height &&
-                containership.boatType.width >= usedWidth + container.width) {
+                containership.boatType.width >= usedWidth + container.width
+            ) {
 
                 usedLength += container.length
                 usedHeight += container.height
@@ -97,7 +98,8 @@ class ListConteneurActivity : AppCompatActivity() {
     fun listContainers() {
         title = "Conteneurs du bateau"
 
-        var adapter = ArrayAdapter<Container>(this, R.layout.listview_item_delete, containership.containersList.toTypedArray())
+        var adapter =
+            ArrayAdapter<Container>(this, R.layout.listview_item_delete, containership.containersList.toTypedArray())
         listview_container.adapter = adapter
         list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
         listview_container.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
@@ -112,7 +114,8 @@ class ListConteneurActivity : AppCompatActivity() {
 
             setCapacityLabels()
 
-            adapter = ArrayAdapter<Container>(this, R.layout.listview_item_add, containership.containersList.toTypedArray())
+            adapter =
+                ArrayAdapter<Container>(this, R.layout.listview_item_add, containership.containersList.toTypedArray())
             listview_container.adapter = adapter
             list_empty_container.visibility = if (adapter.isEmpty) View.VISIBLE else View.GONE
 

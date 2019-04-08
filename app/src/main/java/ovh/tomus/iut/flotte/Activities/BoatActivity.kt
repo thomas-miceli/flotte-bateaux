@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.activity_boat.*
 import ovh.tomus.iut.flotte.Models.Container
@@ -18,9 +16,6 @@ import ovh.tomus.iut.flotte.Models.ContainershipType
 import ovh.tomus.iut.flotte.Models.Port
 
 import ovh.tomus.iut.flotte.R
-import kotlin.math.acos
-import kotlin.math.cos
-import kotlin.math.sin
 
 class BoatActivity : AppCompatActivity() {
 
@@ -28,9 +23,6 @@ class BoatActivity : AppCompatActivity() {
     private lateinit var harbourList: ArrayList<Port>
     private lateinit var containerShipTypeList: ArrayList<ContainershipType>
     private lateinit var containersList: ArrayList<Container>
-
-    private val db = FirebaseFirestore.getInstance()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +65,7 @@ class BoatActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun loadData() {
         title = containership.boatName
-        val geopoint : GeoPoint = containership.getLocalization()
+        val geopoint: GeoPoint = containership.getLocalization()
         val geopointport = GeoPoint(containership.port.latitude, containership.port.longitude)
 
         boatName.text = containership.boatName
@@ -92,7 +84,7 @@ class BoatActivity : AppCompatActivity() {
         distancebateau.text = distancebetween.toString() + "m"
     }
 
-    fun edit(view : View) {
+    fun edit(view: View) {
         val page = Intent(this, BoatEditorActivity::class.java)
 
         page.putExtra("CONTAINERSHIP", containership)
@@ -102,7 +94,7 @@ class BoatActivity : AppCompatActivity() {
         startActivityForResult(page, 1)
     }
 
-    fun map(view : View) {
+    fun map(view: View) {
         val page = Intent(this, BoatsMapActivity::class.java)
 
         page.putExtra("CONTAINERSHIP", containership)
@@ -117,7 +109,7 @@ class BoatActivity : AppCompatActivity() {
         page.putExtra("CONTAINERS", containersList)
         page.putExtra("MODE", "list")
 
-        startActivityForResult(page,2)
+        startActivityForResult(page, 2)
     }
 
     fun addContainer(view: View) {

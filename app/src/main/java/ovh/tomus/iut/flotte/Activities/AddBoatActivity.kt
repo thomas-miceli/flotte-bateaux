@@ -37,7 +37,14 @@ class AddBoatActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 for (harbour in task.result!!) {
                     val geopoint = harbour.data["localization"] as GeoPoint
-                    harbourList.add(Port(harbour.reference.path, harbour.data["name"].toString(), geopoint.latitude, geopoint.longitude))
+                    harbourList.add(
+                        Port(
+                            harbour.reference.path,
+                            harbour.data["name"].toString(),
+                            geopoint.latitude,
+                            geopoint.longitude
+                        )
+                    )
                 }
                 val adapter = ArrayAdapter(this, R.layout.spinner_item, harbourList.toTypedArray())
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -50,7 +57,15 @@ class AddBoatActivity : AppCompatActivity() {
         types.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (type in task.result!!) {
-                    typeList.add(ContainershipType(type.reference.path, type.data["name"].toString(), type.data["length"].toString().toInt(), type.data["height"].toString().toInt(), type.data["width"].toString().toInt()))
+                    typeList.add(
+                        ContainershipType(
+                            type.reference.path,
+                            type.data["name"].toString(),
+                            type.data["length"].toString().toInt(),
+                            type.data["height"].toString().toInt(),
+                            type.data["width"].toString().toInt()
+                        )
+                    )
                 }
                 val adapter = ArrayAdapter(this, R.layout.spinner_item, typeList.toTypedArray())
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -63,13 +78,22 @@ class AddBoatActivity : AppCompatActivity() {
 
         val boatName: String = boatname.text.toString()
         val captainName: String = captainname.text.toString()
-        val latitude : String = latitudeInput.text.toString()
-        val longitude : String = longitudeInput.text.toString()
+        val latitude: String = latitudeInput.text.toString()
+        val longitude: String = longitudeInput.text.toString()
 
         if (boatName.isNotBlank() && captainName.isNotBlank() && latitudeInput.text.isNotBlank() && longitudeInput.text.isNotBlank()) {
 
             if (latitude.toDouble() >= -90 && latitude.toDouble() <= 90 && longitude.toDouble() >= -180 && longitude.toDouble() <= 180) {
-                val containerShip = Containership("", boatName, captainName, latitude.toDouble(), longitude.toDouble(), harbourspinner.selectedItem as Port, typespinner.selectedItem as ContainershipType, arrayListOf())
+                val containerShip = Containership(
+                    "",
+                    boatName,
+                    captainName,
+                    latitude.toDouble(),
+                    longitude.toDouble(),
+                    harbourspinner.selectedItem as Port,
+                    typespinner.selectedItem as ContainershipType,
+                    arrayListOf()
+                )
                 boats.add(containerShip)
 
                 Toast.makeText(this, "Bateau ajouté avec succès", Toast.LENGTH_SHORT).show()

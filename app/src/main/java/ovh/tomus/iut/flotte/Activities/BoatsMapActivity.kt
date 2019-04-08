@@ -22,7 +22,7 @@ import ovh.tomus.iut.flotte.R
 class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     val db = FirebaseFirestore.getInstance()
-    val boatList = mutableMapOf<String,String>()
+    val boatList = mutableMapOf<String, String>()
 
     private lateinit var containership: Containership
     private lateinit var map: GoogleMap
@@ -70,13 +70,12 @@ class BoatsMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         map = googleMap
 
         val geoPoint = containership.getLocalization()
-        val marker = LatLng(geoPoint.latitude,geoPoint.longitude)
+        val marker = LatLng(geoPoint.latitude, geoPoint.longitude)
 
         map.addMarker(MarkerOptions().position(marker).title(containership.boatName))
         map.moveCamera(CameraUpdateFactory.newLatLng(marker))
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
-
 
 
     }

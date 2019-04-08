@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click(view: View) {
-        lateinit var intent : Intent
+        lateinit var intent: Intent
         when (view.getId()) {
             R.id.btnList -> {
                 intent = Intent(this, ListActivity::class.java)

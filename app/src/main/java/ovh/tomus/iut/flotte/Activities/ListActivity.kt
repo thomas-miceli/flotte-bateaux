@@ -14,7 +14,6 @@ import android.view.View
 import ovh.tomus.iut.flotte.Models.*
 
 
-
 class ListActivity : AppCompatActivity() {
 
     val db = FirebaseFirestore.getInstance()
@@ -23,9 +22,8 @@ class ListActivity : AppCompatActivity() {
     var containershipsArray = ArrayList<Containership>()
     var containersArray = ArrayList<Container>()
     var containershipTypes = ArrayList<ContainershipType>()
-    var containershipContainers = ArrayList<ContainerShipContainer>()
 
-    var resume : Boolean = false
+    var resume: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +44,17 @@ class ListActivity : AppCompatActivity() {
             recreate()
             resume = false
         } else {
+            list_empty.visibility = View.VISIBLE
+            list_empty.text = "Importation des bateaux..."
             getHarbours()
         }
     }
 
-
-    fun getHarbours(){
+    fun getHarbours() {
         db.collection("harbours").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (item in task.result!!) {
-                    val geopoint : GeoPoint = item["localization"] as GeoPoint
+                    val geopoint: GeoPoint = item["localization"] as GeoPoint
                     val port = Port(
                         item.reference.path,
                         item["name"].toString(),
@@ -69,7 +68,7 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun getContainers(){
+    fun getContainers() {
         db.collection("containers").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (item in task.result!!) {
@@ -86,7 +85,7 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun getContainerShipTypes(){
+    fun getContainerShipTypes() {
         db.collection("containership-type").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (item in task.result!!) {
@@ -105,11 +104,11 @@ class ListActivity : AppCompatActivity() {
     }
 
     fun getContainerShips() {
-        db.collection("containerShips").get().addOnCompleteListener{ task ->
+        db.collection("containerShips").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                for (item in task.result!!){
-                    val geopoint : GeoPoint = item["localization"] as GeoPoint
-                    val containerShip = Containership( // var containers: Collection<Container>
+                for (item in task.result!!) {
+                    val geopoint: GeoPoint = item["localization"] as GeoPoint
+                    val containerShip = Containership(
                         item.reference.path,
                         item["boatName"].toString(),
                         item["captainName"].toString(),
@@ -121,6 +120,8 @@ class ListActivity : AppCompatActivity() {
                     )
                     containershipsArray.add(containerShip)
                 }
+
+                list_empty.text = "Aucun bateau"
 
                 val adapter = ArrayAdapter<Containership>(this, R.layout.listview_item, containershipsArray)
                 listview.setAdapter(adapter)
@@ -144,39 +145,29 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun getContainerShipContainers() {
-        for(boat in containershipsArray){
-            for(container in boat.containersList){
-                for(item in containersArray){
-                    if(item.id === container.id) containershipContainers.add(ContainerShipContainer(boat,item))
-                }
-            }
-        }
-    }
-
     fun getContainerShipHarbour(reference: String): Port {
         lateinit var port: Port
-        for(item in harboursArray){
+        for (item in harboursArray) {
             val path = item.id
-            if(path == reference) port = item
+            if (path == reference) port = item
         }
         return port
     }
 
     fun getContainerShipType(reference: String): ContainershipType {
         lateinit var type: ContainershipType
-        for(item in containershipTypes){
-            if(item.id == reference) type = item
+        for (item in containershipTypes) {
+            if (item.id == reference) type = item
         }
         return type
     }
 
     fun getContainersOfBoat(containersRef: ArrayList<DocumentReference>): ArrayList<Container> {
-        val containersOfBoat : ArrayList<Container> = ArrayList()
-        for(containerRef in containersRef){
+        val containersOfBoat: ArrayList<Container> = ArrayList()
+        for (containerRef in containersRef) {
             val toRemove = ArrayList<Container>()
-            for(item in containersArray){
-                if(item.id == containerRef.path) {
+            for (item in containersArray) {
+                if (item.id == containerRef.path) {
                     containersOfBoat.add(item)
                     toRemove.add(item)
                 }

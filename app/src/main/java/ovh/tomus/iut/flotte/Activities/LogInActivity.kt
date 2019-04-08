@@ -18,7 +18,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class LogInActivity : AppCompatActivity()  {
+class LogInActivity : AppCompatActivity() {
 
     val RC_SIGN_IN = 101
 
@@ -134,7 +134,6 @@ class LogInActivity : AppCompatActivity()  {
         val user = User(uid, pseudo, mail)
 
         page.putExtra("USER", user)
-        Toast.makeText(applicationContext, "Connecté", Toast.LENGTH_LONG).show()
 
         startActivity(page)
         finish()

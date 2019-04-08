@@ -15,7 +15,6 @@ import ovh.tomus.iut.flotte.R
 import android.content.Intent
 
 
-
 class BoatEditorActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
@@ -63,7 +62,7 @@ class BoatEditorActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun updateData (view: View){
+    fun updateData(view: View) {
         val containerShipRef = db.document(containership.id)
 
         val boatName = edit_boatname.text.toString()
